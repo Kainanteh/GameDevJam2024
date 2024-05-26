@@ -8,7 +8,7 @@ public class AccionMover : MonoBehaviour
     private Vector3 posicionObjetivo;
     private Unidad unidad;
 
-
+     
     private void Awake()
     {
         unidad = GetComponent<Unidad>();
@@ -62,18 +62,17 @@ public class AccionMover : MonoBehaviour
 
         CuadriculaPosicion unidadCuadriculaPosicion = unidad.GetCuadriculaPosicion();
 
-        for (int x = 0; x < CuadriculaNivel.Instance.GetAlto()-1; x++)
+        for (int x = -1; x < CuadriculaNivel.Instance.GetAlto()-1; x++)
         {
 
-            for (int z = 0; z < CuadriculaNivel.Instance.GetAncho()-1; z++)
+            for (int z = -1; z < CuadriculaNivel.Instance.GetAncho()-1; z++)
             {
 
                 CuadriculaPosicion temporalCuadriculaPosicion = new CuadriculaPosicion(x,z);
                 CuadriculaPosicion testarCuadriculaPosicion = unidadCuadriculaPosicion + temporalCuadriculaPosicion;
 
-               
 
-               
+
 
                 if (!CuadriculaNivel.Instance.EsValidaCuadriculaPosicion(testarCuadriculaPosicion))
                 {

@@ -7,6 +7,8 @@ public class Unidad : MonoBehaviour
 {
     [SerializeField] private CuadriculaPosicion cuadriculaPosicion;
     private AccionMover accionMover;
+    private AccionAtacar accionAtacar;
+    private UnidadVidaSistema unidadVidaSistema;
 
     private enum Direccion
     {
@@ -18,13 +20,18 @@ public class Unidad : MonoBehaviour
 
     [SerializeField] private Direccion direccionActual = Direccion.Norte;
     private float tiempoTranscurrido;
-    private const float intervaloMovimiento = 5f;
+    private const float intervaloMovimiento = 1f;
 
     [SerializeField] private bool Moverse;
+    [SerializeField] private bool esEnemigo;
+    [SerializeField] private bool enMovimiento = false; // Flag para saber si la unidad está en movimiento
 
     private void Awake()
     {
         accionMover = GetComponent<AccionMover>();
+        accionAtacar = GetComponent<AccionAtacar>();
+        unidadVidaSistema = GetComponent<UnidadVidaSistema>();
+   
     }
 
     private void Start()
@@ -32,26 +39,14 @@ public class Unidad : MonoBehaviour
         cuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
         CuadriculaNivel.Instance.SetUnidadACuadriculaPosicion(cuadriculaPosicion, this);
 
-        // Mover a una posición específica al inicio para probar
-        /*accionMover.Mover(CuadriculaNivel.Instance.GetMundoPosicion(new CuadriculaPosicion(5, 7)));*/
+        AudioGolpeBajo.AudioGolpeBajoEvento += IniciarMovimientoUnidad;
+        AudioGolpeBajo.AudioGolpeBajoEvento += IniciarAtaqueUnidad;
     }
 
     private void Update()
     {
 
-      
-
-        tiempoTranscurrido += Time.deltaTime;
-
-        if (tiempoTranscurrido >= intervaloMovimiento)
-        {
-            tiempoTranscurrido = 0f;
-            if (Moverse)
-            {
-                
-                MoverUnidad();
-            }
-        }
+     
 
         CuadriculaPosicion nuevaCuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
 
@@ -62,9 +57,77 @@ public class Unidad : MonoBehaviour
             // La unidad ha cambiado de celda
             CuadriculaNivel.Instance.UnidadSeHaMovidoCuadriculaPosicion(this, viejaCuadriculaPosicion, nuevaCuadriculaPosicion);
         }
+
+     
+  
+
+        
     }
 
-    private void MoverUnidad()
+    private bool HayEnemigoEnDireccion(bool EsEnemigo, Direccion direccion)
+    {
+        CuadriculaPosicion posicionDestino = cuadriculaPosicion;
+
+        switch (direccion)
+        {
+            case Direccion.Norte:
+                posicionDestino = new CuadriculaPosicion(posicionDestino.x, posicionDestino.z + 1);
+                break;
+            case Direccion.Sur:
+                posicionDestino = new CuadriculaPosicion(posicionDestino.x, posicionDestino.z - 1);
+                break;
+            case Direccion.Este:
+                posicionDestino = new CuadriculaPosicion(posicionDestino.x + 1, posicionDestino.z);
+                break;
+            case Direccion.Oeste:
+                posicionDestino = new CuadriculaPosicion(posicionDestino.x - 1, posicionDestino.z);
+                break;
+        }
+
+    
+
+        if (accionAtacar.EsValidoAccionCuadriculaPosicion(posicionDestino))
+        {
+         
+            bool unidadEnDestino = CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(posicionDestino);
+
+            if (unidadEnDestino)
+            {
+
+                //¿?¿? Porque
+                if (this.esEnemigo)
+                {
+                    return unidadEnDestino;
+                }
+                else
+                {
+                    return unidadEnDestino;
+                }
+
+            }
+
+        }
+
+        return false;
+    }
+
+    private void IniciarMovimientoUnidad(object sender, EventArgs e)
+    {
+        if (!enMovimiento && Moverse) // Verifica que no esté en movimiento y que pueda moverse
+        {
+            StartCoroutine(MoverUnidadConDescanso());
+        }
+    }
+
+    private IEnumerator MoverUnidadConDescanso()
+    {
+        
+        MoverUnidad(null, null); // Mueve la unidad
+        yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
+        enMovimiento = false; // Marca que la unidad ya no está en movimiento
+    }
+
+    private void MoverUnidad(object sender, EventArgs e)
     {
         CuadriculaPosicion nuevaPosicion = cuadriculaPosicion;
 
@@ -86,13 +149,68 @@ public class Unidad : MonoBehaviour
 
         Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);
 
-       
-
         if (accionMover.EsValidoAccionCuadriculaPosicion(nuevaPosicion))
         {
+            enMovimiento = true; // Marca que la unidad está en movimiento
             accionMover.Mover(nuevaPosicionMundo);
         }
     }
+
+        private void IniciarAtaqueUnidad(object sender, EventArgs e)
+        {
+    
+            if (!enMovimiento) // Verifica que no esté en movimiento y que pueda moverse
+            {
+      
+            StartCoroutine(AtaqueUnidadConDescanso());
+            }
+        }
+
+        private IEnumerator AtaqueUnidadConDescanso()
+        {
+      
+            AtacarUnidad(null, null); // Mueve la unidad
+            yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
+     
+        }
+
+        private void AtacarUnidad(object sender, EventArgs e)
+        {
+            CuadriculaPosicion nuevaPosicion = cuadriculaPosicion;
+
+            switch (direccionActual)
+            {
+                case Direccion.Norte:
+                    nuevaPosicion = new CuadriculaPosicion(cuadriculaPosicion.x, cuadriculaPosicion.z + 1);
+                    break;
+                case Direccion.Sur:
+                    nuevaPosicion = new CuadriculaPosicion(cuadriculaPosicion.x, cuadriculaPosicion.z - 1);
+                    break;
+                case Direccion.Este:
+                    nuevaPosicion = new CuadriculaPosicion(cuadriculaPosicion.x + 1, cuadriculaPosicion.z);
+                    break;
+                case Direccion.Oeste:
+                    nuevaPosicion = new CuadriculaPosicion(cuadriculaPosicion.x - 1, cuadriculaPosicion.z);
+                    break;
+            }
+
+        /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
+
+
+
+
+    
+            if (HayEnemigoEnDireccion(esEnemigo, direccionActual))
+            {
+        
+                Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(nuevaPosicion);
+      
+                accionAtacar.Atacar(unidadObjetivo);
+
+            }
+       
+            
+        }
 
     public CuadriculaPosicion GetCuadriculaPosicion()
     {
@@ -109,25 +227,37 @@ public class Unidad : MonoBehaviour
         return accionMover;
     }
 
-    /*public bool IsEnemy()
+    public bool EsEnemigo()
     {
-        return isEnemy;
+        return esEnemigo;
     }
 
-    public void Damage(int damageAmount)
-    {
-        healthSystem.Damage(damageAmount);
-    }
-    private void HealthSystem_OnDead(object sender, EventArgs e)
-    {
-        LevelGrid.Instance.RemoveUnitAtGridPOsition(gridPosition, this);
-        Destroy(gameObject);
 
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
-    }
-
-    public float GetHealthNormalized()
-    {
-        return healthSystem.GetHealthNormalized();
-    }*/
 }
+
+
+
+
+
+
+
+
+
+
+/*
+ public void Damage(int damageAmount)
+ {
+     healthSystem.Damage(damageAmount);
+ }
+ private void HealthSystem_OnDead(object sender, EventArgs e)
+ {
+     LevelGrid.Instance.RemoveUnitAtGridPOsition(gridPosition, this);
+     Destroy(gameObject);
+
+     OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+ }
+
+ public float GetHealthNormalized()
+ {
+     return healthSystem.GetHealthNormalized();
+ }*/
