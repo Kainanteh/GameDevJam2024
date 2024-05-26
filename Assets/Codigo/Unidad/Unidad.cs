@@ -20,6 +20,8 @@ public class Unidad : MonoBehaviour
     private float tiempoTranscurrido;
     private const float intervaloMovimiento = 5f;
 
+    [SerializeField] private bool Moverse;
+
     private void Awake()
     {
         accionMover = GetComponent<AccionMover>();
@@ -36,12 +38,19 @@ public class Unidad : MonoBehaviour
 
     private void Update()
     {
+
+      
+
         tiempoTranscurrido += Time.deltaTime;
 
         if (tiempoTranscurrido >= intervaloMovimiento)
         {
             tiempoTranscurrido = 0f;
-            MoverUnidad();
+            if (Moverse)
+            {
+                
+                MoverUnidad();
+            }
         }
 
         CuadriculaPosicion nuevaCuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
@@ -51,7 +60,7 @@ public class Unidad : MonoBehaviour
             CuadriculaPosicion viejaCuadriculaPosicion = cuadriculaPosicion;
             cuadriculaPosicion = nuevaCuadriculaPosicion;
             // La unidad ha cambiado de celda
-            CuadriculaNivel.Instance.UnidadMoverCuadriculaPosicion(this, viejaCuadriculaPosicion, nuevaCuadriculaPosicion);
+            CuadriculaNivel.Instance.UnidadSeHaMovidoCuadriculaPosicion(this, viejaCuadriculaPosicion, nuevaCuadriculaPosicion);
         }
     }
 
@@ -76,7 +85,13 @@ public class Unidad : MonoBehaviour
         }
 
         Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);
-        accionMover.Mover(nuevaPosicionMundo);
+
+       
+
+        if (accionMover.EsValidoAccionCuadriculaPosicion(nuevaPosicion))
+        {
+            accionMover.Mover(nuevaPosicionMundo);
+        }
     }
 
     public CuadriculaPosicion GetCuadriculaPosicion()

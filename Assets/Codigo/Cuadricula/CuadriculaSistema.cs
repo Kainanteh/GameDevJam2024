@@ -82,5 +82,23 @@ public class CuadriculaSistema
     {
         return tamañoCelda;
     }
+    public int GetAlto()
+    {
+        return alto;
+    }
+    public int GetAncho()
+    {
+        return ancho;
+    }
+
+    public bool EsValidaCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
+    {
+      
+
+        return cuadriculaPosicion.x >= 0 &&
+                cuadriculaPosicion.z >= 0 &&
+                cuadriculaPosicion.x < alto &&
+                cuadriculaPosicion.z < ancho;
+    }
 
 }

@@ -30,6 +30,8 @@ public class AccionMover : MonoBehaviour
             float rotacionVelocidad = 10f;
             transform.forward = Vector3.Lerp(transform.forward, movimientoDireccion, Time.deltaTime * rotacionVelocidad);
 
+      
+
             // Animacion bool isWalking true
 
 
@@ -46,9 +48,57 @@ public class AccionMover : MonoBehaviour
         this.posicionObjetivo = posicionObjetivo;
     }
 
+    public bool EsValidoAccionCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
+    {
+
+        List<CuadriculaPosicion> validoCuadriculoPosicionLista = GetValidoAccionCuadriculaPosicionLista();
+        return validoCuadriculoPosicionLista.Contains(cuadriculaPosicion);
+
+    }
+
     public List<CuadriculaPosicion> GetValidoAccionCuadriculaPosicionLista()
     {
         List<CuadriculaPosicion> validoCuadriculoPosicionLista = new List<CuadriculaPosicion>();
+
+        CuadriculaPosicion unidadCuadriculaPosicion = unidad.GetCuadriculaPosicion();
+
+        for (int x = 0; x < CuadriculaNivel.Instance.GetAlto()-1; x++)
+        {
+
+            for (int z = 0; z < CuadriculaNivel.Instance.GetAncho()-1; z++)
+            {
+
+                CuadriculaPosicion temporalCuadriculaPosicion = new CuadriculaPosicion(x,z);
+                CuadriculaPosicion testarCuadriculaPosicion = unidadCuadriculaPosicion + temporalCuadriculaPosicion;
+
+               
+
+               
+
+                if (!CuadriculaNivel.Instance.EsValidaCuadriculaPosicion(testarCuadriculaPosicion))
+                {
+                    continue;
+                }
+       
+                // Misma cuadricula
+                if (unidadCuadriculaPosicion == testarCuadriculaPosicion)
+                {
+                    continue;
+                }
+
+                // Ya hay una unidad
+                if(CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(testarCuadriculaPosicion))
+                {
+                    continue;
+                }
+
+                validoCuadriculoPosicionLista.Add(testarCuadriculaPosicion);
+
+            }
+
+        }
+
+      
 
         return validoCuadriculoPosicionLista;
     }

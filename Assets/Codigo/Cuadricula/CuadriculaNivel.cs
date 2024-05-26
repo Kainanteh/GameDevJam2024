@@ -31,7 +31,7 @@ public class CuadriculaNivel : MonoBehaviour
     {
         cuadriculaSistema = new CuadriculaSistema(10, 10, 2f);
 
-        Debug.Log(new CuadriculaPosicion(5, 7));
+
         cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
     }
 
@@ -53,7 +53,7 @@ public class CuadriculaNivel : MonoBehaviour
         cuadriculaObjeto.SetUnidad(null);
     }
 
-    public void UnidadMoverCuadriculaPosicion(Unidad unidad, CuadriculaPosicion desdeCuadriculaPosicion, CuadriculaPosicion haciaCuadriculaPosicion)
+    public void UnidadSeHaMovidoCuadriculaPosicion(Unidad unidad, CuadriculaPosicion desdeCuadriculaPosicion, CuadriculaPosicion haciaCuadriculaPosicion)
     {
 
         LimpiarUnidadACuadriculaPosicion(desdeCuadriculaPosicion);
@@ -68,10 +68,34 @@ public class CuadriculaNivel : MonoBehaviour
 
     }
 
+    public bool EsValidaCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
+    {
+
+        return cuadriculaSistema.EsValidaCuadriculaPosicion(cuadriculaPosicion);
+
+    }
+
     public Vector3 GetMundoPosicion(CuadriculaPosicion cuadriculaPosicion)
     {
 
         return new Vector3(cuadriculaPosicion.x, 0, cuadriculaPosicion.z) * cuadriculaSistema.GetTamañoCelda();
+
+    }
+
+    public int GetAlto()
+    {
+        return cuadriculaSistema.GetAlto();
+    }
+    public int GetAncho()
+    {
+        return cuadriculaSistema.GetAncho();
+    }
+
+    public bool HayUnidadEnCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
+    {
+
+        CuadriculaObjeto cuadriculaObjeto = cuadriculaSistema.GetCuadriculaObjeto(cuadriculaPosicion);
+        return cuadriculaObjeto.HayUnidad();
 
     }
 

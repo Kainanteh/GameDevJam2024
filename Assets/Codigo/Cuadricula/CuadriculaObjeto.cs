@@ -35,4 +35,9 @@ public class CuadriculaObjeto
     
     }
 
+    public bool HayUnidad()
+    {
+        return this.unidad != null;
+    }
+
 }
