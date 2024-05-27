@@ -132,12 +132,19 @@ MonoBehaviour:
     z: 8
   - x: 11
     z: 8
+  - x: 8
+    z: 9
+  - x: 8
+    z: 10
+  - x: 8
+    z: 11
   direccionActual: 0
   Moverse: 0
   esEnemigo: 0
   enMovimiento: 0
   enAtaque: 0
   NucleoJugador: 1
+  NucleoEnemigo: 0
 --- !u!114 &4530887367705648326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,4 +176,3 @@ MonoBehaviour:
   cuadriculasInstanciadoras:
   - x: 7
     z: 8
-  NucleoEnemigo: 0
