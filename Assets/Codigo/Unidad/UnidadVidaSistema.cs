@@ -23,7 +23,7 @@ public class UnidadVidaSistema : MonoBehaviour
 
     public void Daño(int dañoNumero)
     {
-
+    
         vida -= dañoNumero;
 
         if (vida < 0)
@@ -38,7 +38,7 @@ public class UnidadVidaSistema : MonoBehaviour
             Muere();
         }
 
-  /*      Debug.Log(vida);*/
+  
 
     }
 
@@ -48,6 +48,19 @@ public class UnidadVidaSistema : MonoBehaviour
         EnMuerte?.Invoke(this, EventArgs.Empty);
 
         CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(unidad.GetCuadriculaPosicion());
+
+        if(unidad.NucleoJugador == true || unidad.NucleoEnemigo == true)
+        {
+            List<CuadriculaPosicion> cuadriculaPosiciones = unidad.GetCuadriculasNucleo();
+
+            foreach (var cuadricula in cuadriculaPosiciones)
+            {
+
+                CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(cuadricula);
+
+            }
+
+        }
 
         Destroy(this.gameObject);
 

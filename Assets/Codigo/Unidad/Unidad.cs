@@ -6,11 +6,12 @@ using UnityEngine;
 public class Unidad : MonoBehaviour
 {
     [SerializeField] private CuadriculaPosicion cuadriculaPosicion;
+    [SerializeField] private List<CuadriculaPosicion> cuadriculaPosicionNucleo;
     private AccionMover accionMover;
     private AccionAtacar accionAtacar;
     private UnidadVidaSistema unidadVidaSistema;
 
-    private enum Direccion
+    public enum Direccion
     {
         Norte,
         Sur,
@@ -27,12 +28,13 @@ public class Unidad : MonoBehaviour
     [SerializeField] private bool enMovimiento = false; // Flag para saber si la unidad está en movimiento
     [SerializeField] private bool enAtaque = false;
 
-    [SerializeField] private bool Nucleo = false;
+    public bool NucleoJugador = false;
+    public bool NucleoEnemigo = false;
 
     private void Awake()
     {
 
-        if (Nucleo == false)
+        if (NucleoJugador == false && NucleoEnemigo == false)
         {
 
             accionMover = GetComponent<AccionMover>();
@@ -49,7 +51,7 @@ public class Unidad : MonoBehaviour
     private void Start()
     {
 
-        if (Nucleo == false)
+        if (NucleoJugador == false && NucleoEnemigo == false)
         {
 
             cuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
@@ -60,6 +62,15 @@ public class Unidad : MonoBehaviour
 
        
             accionAtacar.EnMatar += SetEnAtaqueFalse;
+        }
+        else
+        {
+            foreach (var cuadricula in cuadriculaPosicionNucleo)
+            {
+                CuadriculaNivel.Instance.SetUnidadACuadriculaPosicion(cuadricula, this);
+            }
+
+            
         }
     }
 
@@ -233,15 +244,15 @@ public class Unidad : MonoBehaviour
                     break;
             }
 
-            /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
+        /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
 
 
             if (HayEnemigoEnDireccion(esEnemigo, direccionActual))
             {
-
+              
                 enAtaque = true;
                 Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(nuevaPosicion);
-  
+
                 accionAtacar.Atacar(unidadObjetivo);
                 
             }
@@ -268,9 +279,11 @@ public class Unidad : MonoBehaviour
         return esEnemigo;
     }
 
-    public void DañoAVida()
+    public void DañoAVida(int dañoAtaque)
     {
-        unidadVidaSistema.Daño(accionAtacar.GetDañoAtaque());
+        
+        unidadVidaSistema.Daño(dañoAtaque);
+     
     }
 
     public int GetVidaUnidad()
@@ -283,6 +296,26 @@ public class Unidad : MonoBehaviour
         enAtaque = false;
     }
   
+    public List<CuadriculaPosicion> GetCuadriculasNucleo()
+    {
+        return cuadriculaPosicionNucleo;
+    }
+
+    public void SetMoverseTrue()
+    {
+        Moverse = true;
+    }
+
+    public void SetDireccion(Direccion nuevaDireccion)
+    {
+        direccionActual = nuevaDireccion;
+    }
+
+    public Direccion GetDireccion()
+    {
+        return direccionActual;
+    }
+
 
 }
 

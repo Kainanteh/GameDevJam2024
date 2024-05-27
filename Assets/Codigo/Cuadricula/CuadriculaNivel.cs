@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CuadriculaNivel : MonoBehaviour
 {
+
     public static CuadriculaNivel Instance
     {
         get; private set;

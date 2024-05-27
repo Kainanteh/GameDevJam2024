@@ -1,5 +1,6 @@
 
 using System;
+using System.Numerics;
 
 [Serializable]
 public struct CuadriculaPosicion : IEquatable<CuadriculaPosicion>
@@ -61,5 +62,13 @@ public struct CuadriculaPosicion : IEquatable<CuadriculaPosicion>
         return new CuadriculaPosicion(a.x - b.x, a.z - b.z);
 
     }
+
+    public Vector3 GetVectorPosicion()
+    {
+
+        return new Vector3 (x,0,z);
+
+    }
+
 
 }

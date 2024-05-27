@@ -30,14 +30,14 @@ public class AccionAtacar : MonoBehaviour
     public void Atacar(Unidad unidadObjetivo)
     {
 
-        Debug.Log(unidadObjetivo.GetVidaUnidad() + " " + dañoAtaque);
+      
 
         if ((unidadObjetivo.GetVidaUnidad() - dañoAtaque) <= 0)
         {
             EnMatar?.Invoke(this, EventArgs.Empty);
         }
 
-        unidadObjetivo.DañoAVida();
+        unidadObjetivo.DañoAVida(dañoAtaque);
 
     }
 
