@@ -25,29 +25,47 @@ public class Unidad : MonoBehaviour
     [SerializeField] private bool Moverse;
     [SerializeField] private bool esEnemigo;
     [SerializeField] private bool enMovimiento = false; // Flag para saber si la unidad está en movimiento
+    [SerializeField] private bool enAtaque = false;
+
+    [SerializeField] private bool Nucleo = false;
 
     private void Awake()
     {
-        accionMover = GetComponent<AccionMover>();
-        accionAtacar = GetComponent<AccionAtacar>();
+
+        if (Nucleo == false)
+        {
+
+            accionMover = GetComponent<AccionMover>();
+            accionAtacar = GetComponent<AccionAtacar>();
+
+        }
+
         unidadVidaSistema = GetComponent<UnidadVidaSistema>();
-   
+
+
+
     }
 
     private void Start()
     {
-        cuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
-        CuadriculaNivel.Instance.SetUnidadACuadriculaPosicion(cuadriculaPosicion, this);
 
-        AudioGolpeBajo.AudioGolpeBajoEvento += IniciarMovimientoUnidad;
-        AudioGolpeBajo.AudioGolpeBajoEvento += IniciarAtaqueUnidad;
+        if (Nucleo == false)
+        {
+
+            cuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
+            CuadriculaNivel.Instance.SetUnidadACuadriculaPosicion(cuadriculaPosicion, this);
+
+            AudioGolpeBajo.AudioGolpeBajoEvento += IniciarMovimientoUnidad;
+            AudioGolpeBajo.AudioGolpeBajoEvento += IniciarAtaqueUnidad;
+
+       
+            accionAtacar.EnMatar += SetEnAtaqueFalse;
+        }
     }
 
     private void Update()
     {
-
-     
-
+             
         CuadriculaPosicion nuevaCuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
 
         if (nuevaCuadriculaPosicion != cuadriculaPosicion)
@@ -57,15 +75,12 @@ public class Unidad : MonoBehaviour
             // La unidad ha cambiado de celda
             CuadriculaNivel.Instance.UnidadSeHaMovidoCuadriculaPosicion(this, viejaCuadriculaPosicion, nuevaCuadriculaPosicion);
         }
-
-     
-  
-
-        
+             
     }
 
     private bool HayEnemigoEnDireccion(bool EsEnemigo, Direccion direccion)
     {
+
         CuadriculaPosicion posicionDestino = cuadriculaPosicion;
 
         switch (direccion)
@@ -83,9 +98,7 @@ public class Unidad : MonoBehaviour
                 posicionDestino = new CuadriculaPosicion(posicionDestino.x - 1, posicionDestino.z);
                 break;
         }
-
-    
-
+          
         if (accionAtacar.EsValidoAccionCuadriculaPosicion(posicionDestino))
         {
          
@@ -113,22 +126,32 @@ public class Unidad : MonoBehaviour
 
     private void IniciarMovimientoUnidad(object sender, EventArgs e)
     {
-        if (!enMovimiento && Moverse) // Verifica que no esté en movimiento y que pueda moverse
+        if (!enMovimiento && Moverse && !enAtaque) // Verifica que no esté en movimiento y que pueda moverse
         {
+
+            if (this == null)
+            {
+                return;
+            }
+
+       
+
             StartCoroutine(MoverUnidadConDescanso());
         }
     }
 
     private IEnumerator MoverUnidadConDescanso()
     {
-        
+     
         MoverUnidad(null, null); // Mueve la unidad
         yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
         enMovimiento = false; // Marca que la unidad ya no está en movimiento
+       
     }
 
     private void MoverUnidad(object sender, EventArgs e)
     {
+    
         CuadriculaPosicion nuevaPosicion = cuadriculaPosicion;
 
         switch (direccionActual)
@@ -154,16 +177,25 @@ public class Unidad : MonoBehaviour
             enMovimiento = true; // Marca que la unidad está en movimiento
             accionMover.Mover(nuevaPosicionMundo);
         }
+
     }
 
         private void IniciarAtaqueUnidad(object sender, EventArgs e)
         {
-    
+
+            if (this == null)
+            {
+                return;
+            }
+
+
             if (!enMovimiento) // Verifica que no esté en movimiento y que pueda moverse
             {
       
-            StartCoroutine(AtaqueUnidadConDescanso());
+                StartCoroutine(AtaqueUnidadConDescanso());
+
             }
+
         }
 
         private IEnumerator AtaqueUnidadConDescanso()
@@ -171,11 +203,18 @@ public class Unidad : MonoBehaviour
       
             AtacarUnidad(null, null); // Mueve la unidad
             yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
-     
+            
         }
 
         private void AtacarUnidad(object sender, EventArgs e)
         {
+
+            if (this == null)
+            {
+                return;
+            }
+
+
             CuadriculaPosicion nuevaPosicion = cuadriculaPosicion;
 
             switch (direccionActual)
@@ -194,21 +233,18 @@ public class Unidad : MonoBehaviour
                     break;
             }
 
-        /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
+            /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
 
 
-
-
-    
             if (HayEnemigoEnDireccion(esEnemigo, direccionActual))
             {
-        
-                Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(nuevaPosicion);
-      
-                accionAtacar.Atacar(unidadObjetivo);
 
+                enAtaque = true;
+                Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(nuevaPosicion);
+  
+                accionAtacar.Atacar(unidadObjetivo);
+                
             }
-       
             
         }
 
@@ -232,6 +268,21 @@ public class Unidad : MonoBehaviour
         return esEnemigo;
     }
 
+    public void DañoAVida()
+    {
+        unidadVidaSistema.Daño(accionAtacar.GetDañoAtaque());
+    }
+
+    public int GetVidaUnidad()
+    {
+        return unidadVidaSistema.GetVida();
+    }
+
+    public void SetEnAtaqueFalse(object sender, EventArgs e)
+    {
+        enAtaque = false;
+    }
+  
 
 }
 

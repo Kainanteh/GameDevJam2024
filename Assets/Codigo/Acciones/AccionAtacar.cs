@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class AccionAtacar : MonoBehaviour
     private Vector3 posicionObjetivo;
     private Unidad unidad;
 
+    [SerializeField] int dañoAtaque = 10;
+
+    public event EventHandler EnMatar;
 
     private void Awake()
     {
@@ -25,13 +29,20 @@ public class AccionAtacar : MonoBehaviour
 
     public void Atacar(Unidad unidadObjetivo)
     {
-        Debug.Log("Ataque a " + unidadObjetivo );
+
+        Debug.Log(unidadObjetivo.GetVidaUnidad() + " " + dañoAtaque);
+
+        if ((unidadObjetivo.GetVidaUnidad() - dañoAtaque) <= 0)
+        {
+            EnMatar?.Invoke(this, EventArgs.Empty);
+        }
+
+        unidadObjetivo.DañoAVida();
+
     }
 
     public bool EsValidoAccionCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
     {
-
-   
 
         if (CuadriculaNivel.Instance.EsValidaCuadriculaPosicion(cuadriculaPosicion)
             && unidad.GetCuadriculaPosicion() != cuadriculaPosicion
@@ -44,9 +55,11 @@ public class AccionAtacar : MonoBehaviour
             return false;
         }
 
-      
-
     }
 
+    public int GetDañoAtaque()
+    {
+        return dañoAtaque;
+    }
 
 }

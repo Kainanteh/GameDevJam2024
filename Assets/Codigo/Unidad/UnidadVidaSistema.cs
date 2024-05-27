@@ -12,16 +12,19 @@ public class UnidadVidaSistema : MonoBehaviour
     [SerializeField] private int vida = 100;
     private int vidaMaxima;
 
+    private Unidad unidad;
+
     private void Awake()
     {
         vidaMaxima = vida;
+        unidad = GetComponent<Unidad>();
     }
 
 
-    public void Damage(int damageAmount)
+    public void Daño(int dañoNumero)
     {
 
-        vida -= damageAmount;
+        vida -= dañoNumero;
 
         if (vida < 0)
         {
@@ -32,21 +35,36 @@ public class UnidadVidaSistema : MonoBehaviour
 
         if (vida == 0)
         {
-            Die();
+            Muere();
         }
 
-        Debug.Log(vida);
+  /*      Debug.Log(vida);*/
 
     }
 
-    private void Die()
+    private void Muere()
     {
+
         EnMuerte?.Invoke(this, EventArgs.Empty);
+
+        CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(unidad.GetCuadriculaPosicion());
+
+        Destroy(this.gameObject);
+
     }
 
-    public float GetHealthNormalized()
+    public float GetVidaNormalizada()
     {
+
         return (float)vida / vidaMaxima;
+
+    }
+
+    public int GetVida() 
+    {
+    
+        return vida;
+
     }
 
 }

@@ -12,6 +12,10 @@ public class CuadriculaNivel : MonoBehaviour
     [SerializeField] private CuadriculaSistema cuadriculaSistema;
     [SerializeField] private Transform CuadriculaDebugPrefab;
 
+    
+    [SerializeField] private int Alto;
+    [SerializeField] private int Ancho;
+
     private void Awake()
     {
 
@@ -29,10 +33,13 @@ public class CuadriculaNivel : MonoBehaviour
 
     private void Start()
     {
-        cuadriculaSistema = new CuadriculaSistema(10, 10, 2f);
 
+        cuadriculaSistema = new CuadriculaSistema(Alto, Ancho, 2f);
 
         cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
+
+   
+
     }
 
     public void SetUnidadACuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion, Unidad unidad)
