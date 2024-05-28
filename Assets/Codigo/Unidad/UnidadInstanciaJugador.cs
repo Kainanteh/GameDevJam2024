@@ -18,9 +18,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
             if (unidad != null && cuadriculaObjeto.cuadriculaInstanciadora == true)
             {
                 CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform,cuadriculaPosicion);
-                UnidadJugadorSeleccionada.Instance.LimpiarUnidadSeleccionada();
+               
 
-                Debug.Log(cuadriculaPosicion);
                 if (
                 cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 8  ||
                 cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 9  ||
@@ -29,11 +28,13 @@ public class UnidadInstanciaJugador : MonoBehaviour
                 )
                 {
                     unidad.SetDireccion(Unidad.Direccion.Oeste);
-                } 
-                
+                }
 
 
-                
+                UnidadJugadorSeleccionada.Instance.LimpiarUnidadSeleccionada();
+
+
+
             }
 
         }
