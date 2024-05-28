@@ -23,9 +23,12 @@ public class UnidadInstanciaJugador : MonoBehaviour
             if (CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(cuadriculaPosicion))
             {
 
-                Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(cuadriculaPosicion);
+                if (CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(cuadriculaPosicion).EsEnemigo())
+                {
+                    Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(cuadriculaPosicion);
 
-                unidadObjetivo.DañoAVida(50);
+                    unidadObjetivo.DañoAVida(50);
+                }
 
             }
             else
@@ -38,15 +41,44 @@ public class UnidadInstanciaJugador : MonoBehaviour
 
 
                     if (
-                    cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 8 ||
-                    cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 9 ||
-                    cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 10 ||
-                    cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 11
+                    (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 8)    ||
+                    (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 9 )   ||
+                    (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 10)   ||
+                    (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 11)
                     )
                     {
                         unidad.SetDireccion(Unidad.Direccion.Oeste);
                     }
 
+                    if (
+                    (cuadriculaPosicion.x == 8 && cuadriculaPosicion.z == 7) ||
+                    (cuadriculaPosicion.x == 9 && cuadriculaPosicion.z == 7) ||
+                    (cuadriculaPosicion.x == 10 && cuadriculaPosicion.z == 7) ||
+                    (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 7)
+                    )
+                    {
+                        unidad.SetDireccion(Unidad.Direccion.Sur);
+                    }
+
+                    if (
+                      (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 8) ||
+                      (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 9) ||
+                      (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 10) ||
+                      (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 11)
+                      )
+                    {
+                        unidad.SetDireccion(Unidad.Direccion.Este);
+                    }
+
+                    if (
+                     (cuadriculaPosicion.x == 8 && cuadriculaPosicion.z == 12) ||
+                     (cuadriculaPosicion.x == 9 && cuadriculaPosicion.z == 12) ||
+                     (cuadriculaPosicion.x == 10 && cuadriculaPosicion.z == 12) ||
+                     (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 12)
+                     )
+                    {
+                        unidad.SetDireccion(Unidad.Direccion.Norte);
+                    }
 
                     UnidadJugadorSeleccionada.Instance.LimpiarUnidadSeleccionada();
 
