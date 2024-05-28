@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
 
 
     }
-
+/*
     public Vector2 GetCameraMoveVector()
     {
 
@@ -119,6 +119,6 @@ public class InputManager : MonoBehaviour
 
 
 
-    }
+    }*/
 
 }

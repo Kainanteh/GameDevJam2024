@@ -6,9 +6,9 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
 
-    private const float MIN_FOLLOW_Y_OFFSET = 2f;
+ /*   private const float MIN_FOLLOW_Y_OFFSET = 2f;
     private const float MAX_FOLLOW_Y_OFFSET = 15f;
-
+*/
     public static CameraController Instance {
 
         get; private set;
@@ -31,16 +31,31 @@ public class CameraController : MonoBehaviour
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
     }
 
-    private void Update()
+    /*    private void Update()
     {
 
         HandleMovement();
         HandleRotation();
         HandleZoom();
 
+    }*/
+
+    public float moveSpeed = 5f;
+
+    void Update()
+    {
+        // Movimiento horizontal
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * horizontalInput * moveSpeed * Time.deltaTime);
+
+        // Movimiento vertical
+        float verticalInput = Input.GetAxis("Vertical");
+        transform.Translate(Vector3.up * verticalInput * moveSpeed * Time.deltaTime);
+
+
     }
 
-    private void HandleMovement()
+   /* private void HandleMovement()
     {
 
         Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
@@ -82,7 +97,7 @@ public class CameraController : MonoBehaviour
         float zoomSpeed = 5f;
         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, zoomSpeed * Time.deltaTime);
 
-    }
+    }*/
 
     public float GetCameraHeight()
     {
