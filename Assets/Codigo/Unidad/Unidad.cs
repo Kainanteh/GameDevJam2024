@@ -125,7 +125,7 @@ public class Unidad : MonoBehaviour
                 }
                 else
                 {
-                    return unidadEnDestino;
+                    return !unidadEnDestino;
                 }
 
             }

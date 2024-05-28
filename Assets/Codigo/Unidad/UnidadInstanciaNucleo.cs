@@ -12,11 +12,13 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     [SerializeField] private List<CuadriculaPosicion> cuadriculasInstanciadoras;
 
     private Unidad estaUnidad;
+       
 
     private void Awake()
     {
    
         estaUnidad = GetComponent<Unidad>();
+
     }
 
     // Start is called before the first frame update
@@ -24,29 +26,26 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     {
         //InstanciarUnidad(Unidad);
 
-        string path = Path.Combine(Application.dataPath, "IAEnemigo", "NucleoEste_1.txt");
-        List<string> lineas = LeerArchivoTexto(path);
-        ProcesarInstanciaciones(lineas);
-
-    }
-
-
-    public void InstanciarUnidad(Transform unidadAInstanciar)
-    {
-
-        foreach (var cuadriculasInst in cuadriculasInstanciadoras)
+        if (estaUnidad.EsEnemigo())
         {
+            string path = Path.Combine(Application.dataPath, "IAEnemigo", "NucleoEste_1.txt");
+            List<string> lineas = LeerArchivoTexto(path);
+            ProcesarInstanciaciones(lineas);
+        }
+        else
+        {
+            foreach (var cuadricula in cuadriculasInstanciadoras)
+            {
+                CuadriculaObjeto cuadriculaObjeto = CuadriculaNivel.Instance.GetCuadriculaSistema().GetCuadriculaObjeto(cuadricula);
+                cuadriculaObjeto.cuadriculaInstanciadora = true;
+            }
 
-            System.Numerics.Vector3 systemVector = cuadriculasInst.GetVectorPosicion();
-           
-            UnityEngine.Vector3 unityVector = new UnityEngine.Vector3(systemVector.X*2, systemVector.Y, systemVector.Z*2);
-
-            Instantiate(unidadAInstanciar, unityVector, Quaternion.identity);
         }
 
-        
-
     }
+
+
+
 
     public List<string> LeerArchivoTexto(string path)
     {

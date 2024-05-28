@@ -99,11 +99,32 @@ public class CuadriculaNivel : MonoBehaviour
         return cuadriculaSistema.GetAncho();
     }
 
+    public CuadriculaSistema GetCuadriculaSistema()
+    {
+        return cuadriculaSistema;
+    }
+
     public bool HayUnidadEnCuadriculaPosicion(CuadriculaPosicion cuadriculaPosicion)
     {
 
         CuadriculaObjeto cuadriculaObjeto = cuadriculaSistema.GetCuadriculaObjeto(cuadriculaPosicion);
         return cuadriculaObjeto.HayUnidad();
+
+    }
+
+    public void InstanciarUnidad(Transform unidadAInstanciar, CuadriculaPosicion cuadriculaAInstanciar)
+    {
+
+       
+
+     /*   System.Numerics.Vector3 systemVector = cuadriculaAInstanciar.GetVectorPosicion();
+
+        UnityEngine.Vector3 unityVector = new UnityEngine.Vector3(systemVector.X * 2, systemVector.Y, systemVector.Z * 2);*/
+
+        Instantiate(unidadAInstanciar, GetMundoPosicion(cuadriculaAInstanciar), Quaternion.identity) ;
+        
+
+
 
     }
 

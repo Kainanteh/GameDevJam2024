@@ -9,6 +9,7 @@ public class CuadriculaObjeto
     private CuadriculaPosicion cuadriculaPosicion;
     private Unidad unidad;
 
+    public bool cuadriculaInstanciadora;
 
     public CuadriculaObjeto(CuadriculaSistema cuadriculaSistema, CuadriculaPosicion cuadriculaPosicion)
     { 
