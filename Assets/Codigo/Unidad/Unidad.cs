@@ -88,6 +88,13 @@ public class Unidad : MonoBehaviour
             enMovimiento = false;
         }
 
+    
+
+        if(!HayEnemigoEnDireccion(direccionActual))
+        {
+            enAtaque = false;
+        }
+
     }
 
     private void OnAudioGolpeBajoEvento(object sender, EventArgs e)
@@ -99,7 +106,7 @@ public class Unidad : MonoBehaviour
                 MoverUnidad();
             }
 
-            if (!enMovimiento && HayEnemigoEnDireccion(esEnemigo, direccionActual))
+            if (!enMovimiento && HayEnemigoEnDireccion(direccionActual))
             {
                 AtacarUnidad();
             }
@@ -108,7 +115,8 @@ public class Unidad : MonoBehaviour
 
 
 
-    private bool HayEnemigoEnDireccion(bool EsEnemigo, Direccion direccion)
+
+    private bool HayEnemigoEnDireccion(Direccion direccion)
     {
 
         CuadriculaPosicion posicionDestino = cuadriculaPosicion;
@@ -129,25 +137,33 @@ public class Unidad : MonoBehaviour
                 break;
         }
 
+        if (accionAtacar == null) { return false; }
+
         if (accionAtacar.EsValidoAccionCuadriculaPosicion(posicionDestino))
         {
 
             bool unidadEnDestino = CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(posicionDestino);
 
-            Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(posicionDestino);
 
-            //¿?¿? Porque
-            if (this.esEnemigo && unidadObjetivo.EsEnemigo() == false)
+
+            if (unidadEnDestino)
             {
-                return true;
-            }
-            else if (!this.esEnemigo && unidadObjetivo.EsEnemigo() == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
+                Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(posicionDestino);
+
+                //¿?¿? Porque
+                if (this.esEnemigo && unidadObjetivo.EsEnemigo() == false)
+                {
+                    return true;
+                }
+                else if (!this.esEnemigo && unidadObjetivo.EsEnemigo() == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
 
         }
@@ -155,30 +171,30 @@ public class Unidad : MonoBehaviour
         return false;
     }
 
-/*    private void IniciarMovimientoUnidad(object sender, EventArgs e)
-    {
-        if (!enMovimiento && Moverse && !enAtaque) // Verifica que no esté en movimiento y que pueda moverse
+    /*    private void IniciarMovimientoUnidad(object sender, EventArgs e)
+        {
+            if (!enMovimiento && Moverse && !enAtaque) // Verifica que no esté en movimiento y que pueda moverse
+            {
+
+                if (this == null)
+                {
+                    return;
+                }
+
+
+
+                StartCoroutine(MoverUnidadConDescanso());
+            }
+        }
+
+        private IEnumerator MoverUnidadConDescanso()
         {
 
-            if (this == null)
-            {
-                return;
-            }
+            MoverUnidad(null, null); // Mueve la unidad
+            yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
+            enMovimiento = false; // Marca que la unidad ya no está en movimiento
 
-
-
-            StartCoroutine(MoverUnidadConDescanso());
-        }
-    }
-
-    private IEnumerator MoverUnidadConDescanso()
-    {
-
-        MoverUnidad(null, null); // Mueve la unidad
-        yield return new WaitForSeconds(intervaloMovimiento); // Espera el intervalo de tiempo
-        enMovimiento = false; // Marca que la unidad ya no está en movimiento
-
-    }*/
+        }*/
 
     private void MoverUnidad()
     {
@@ -267,7 +283,7 @@ public class Unidad : MonoBehaviour
         /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
 
 
-        if (HayEnemigoEnDireccion(esEnemigo, direccionActual))
+        if (HayEnemigoEnDireccion(direccionActual))
         {
 
             enAtaque = true;
