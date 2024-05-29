@@ -1,9 +1,9 @@
-﻿using Assets.Scripts;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using System.IO;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioGolpeBajo : MonoBehaviour
@@ -28,17 +28,8 @@ public class AudioGolpeBajo : MonoBehaviour
 
     public static event EventHandler AudioGolpeBajoEvento;
 
-    const int BAND_8 = 8;
-    public static AudioBand AudioFrequencyBand8 { get; private set; }
 
-    [DllImport("__Internal")]
-    private static extern bool StartSampling(string name, float duration, int bufferSize);
 
-    [DllImport("__Internal")]
-    private static extern bool CloseSampling(string name);
-
-    [DllImport("__Internal")]
-    private static extern bool GetSamples(string name, float[] freqData, int size);
 
     void Start()
     {
@@ -51,11 +42,12 @@ public class AudioGolpeBajo : MonoBehaviour
                 objectRenderer.material.color = normalColor;
             }
         }
+ 
 
-        AudioFrequencyBand8 = new AudioBand(BandCount.Eight);
-        //if starting
- /*       StartSampling(name, audioSource.clip.length, 512);*/
+
     }
+
+ 
 
     void Update()
     {
@@ -63,6 +55,7 @@ public class AudioGolpeBajo : MonoBehaviour
         MakeFrequencyBands();
         BandBuffer();
         DetectBeat();
+
     }
 
     void GetSpectrumAudioSource()
@@ -71,17 +64,11 @@ public class AudioGolpeBajo : MonoBehaviour
 
         if (audioSource.isPlaying)
         {
-         
-#if UNITY_EDITOR
-                audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
-#endif
-#if UNITY_WEBGL && !UNITY_EDITOR
-   AudioFrequencyBand8.Update((sample) =>
-            {
-            StartSampling(name, audioSource.clip.length, 512);
-            GetSamples(name, sample, sample.Length);
-                });
-#endif
+
+
+            audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+ 
+
 
         }
     }
@@ -132,6 +119,7 @@ public class AudioGolpeBajo : MonoBehaviour
     {
         // Calcula la intensidad promedio de las bandas bajas (bandas 0 y 1)
         float bassIntensity = (freqBand[0] + freqBand[1]) / 2;
+
 
         // Si la intensidad supera el umbral y ha pasado suficiente tiempo desde el ltimo beat
         bool isBeat = bassIntensity > beatThreshold;

@@ -27,7 +27,10 @@ public class UnidadInstanciaJugador : MonoBehaviour
                 {
                     Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(cuadriculaPosicion);
 
-                    unidadObjetivo.DañoAVida(50);
+                    if (unidadObjetivo.NucleoEnemigo == false)
+                    {
+                        unidadObjetivo.DañoAVida(50);
+                    }
                 }
 
             }
