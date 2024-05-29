@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -26,6 +28,18 @@ public class AudioGolpeBajo : MonoBehaviour
 
     public static event EventHandler AudioGolpeBajoEvento;
 
+    const int BAND_8 = 8;
+    public static AudioBand AudioFrequencyBand8 { get; private set; }
+
+    [DllImport("__Internal")]
+    private static extern bool StartSampling(string name, float duration, int bufferSize);
+
+    [DllImport("__Internal")]
+    private static extern bool CloseSampling(string name);
+
+    [DllImport("__Internal")]
+    private static extern bool GetSamples(string name, float[] freqData, int size);
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -37,6 +51,10 @@ public class AudioGolpeBajo : MonoBehaviour
                 objectRenderer.material.color = normalColor;
             }
         }
+
+        AudioFrequencyBand8 = new AudioBand(BandCount.Eight);
+        //if starting
+ /*       StartSampling(name, audioSource.clip.length, 512);*/
     }
 
     void Update()
@@ -49,7 +67,23 @@ public class AudioGolpeBajo : MonoBehaviour
 
     void GetSpectrumAudioSource()
     {
-        audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        /* audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);*/
+
+        if (audioSource.isPlaying)
+        {
+         
+#if UNITY_EDITOR
+                audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+#endif
+#if UNITY_WEBGL && !UNITY_EDITOR
+   AudioFrequencyBand8.Update((sample) =>
+            {
+            StartSampling(name, audioSource.clip.length, 512);
+            GetSamples(name, sample, sample.Length);
+                });
+#endif
+
+        }
     }
 
     void BandBuffer()
