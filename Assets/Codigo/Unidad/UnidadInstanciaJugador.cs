@@ -37,9 +37,9 @@ public class UnidadInstanciaJugador : MonoBehaviour
                 // Si se ha seleccionado una unidad y la cuadricula es instanciadora (al lado del nucleo del jugador)
                 if (unidad != null && cuadriculaObjeto.cuadriculaInstanciadora == true)
                 {
-                    CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
+                    Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
 
-
+      
                     if (
                     (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 8)    ||
                     (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 9 )   ||
@@ -47,7 +47,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 11)
                     )
                     {
-                        unidad.SetDireccion(Unidad.Direccion.Oeste);
+                        UnidadNueva.SetDireccion(Unidad.Direccion.Oeste);
+            
                     }
 
                     if (
@@ -57,7 +58,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 7)
                     )
                     {
-                        unidad.SetDireccion(Unidad.Direccion.Sur);
+                        UnidadNueva.SetDireccion(Unidad.Direccion.Sur);
+    
                     }
 
                     if (
@@ -67,7 +69,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
                       (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 11)
                       )
                     {
-                        unidad.SetDireccion(Unidad.Direccion.Este);
+                        UnidadNueva.SetDireccion(Unidad.Direccion.Este);
+
                     }
 
                     if (
@@ -77,7 +80,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
                      (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 12)
                      )
                     {
-                        unidad.SetDireccion(Unidad.Direccion.Norte);
+                        UnidadNueva.SetDireccion(Unidad.Direccion.Norte);
+
                     }
 
                     UnidadJugadorSeleccionada.Instance.LimpiarUnidadSeleccionada();

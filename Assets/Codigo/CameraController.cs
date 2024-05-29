@@ -20,6 +20,13 @@ public class CameraController : MonoBehaviour
     private Vector3 targetFollowOffset;
     CinemachineTransposer cinemachineTransposer;
 
+    public float MaxX;
+    public float MinX;
+    public float MaxY;
+    public float MinY;
+    public float MaxZ;
+    public float MinZ;
+
     private void Awake()
     {
         Instance = this;
@@ -31,14 +38,6 @@ public class CameraController : MonoBehaviour
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
     }
 
-    /*    private void Update()
-    {
-
-        HandleMovement();
-        HandleRotation();
-        HandleZoom();
-
-    }*/
 
     public float moveSpeed = 5f;
 
@@ -52,52 +51,66 @@ public class CameraController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         transform.Translate(Vector3.up * verticalInput * moveSpeed * Time.deltaTime);
 
-
+        Vector3 position = transform.position;
+        position.x = Mathf.Clamp(position.x, MinX, MaxX);
+        position.y = Mathf.Clamp(position.y, MinY, MaxY);
+        position.z = Mathf.Clamp(position.y, MinZ, MaxZ);
+        transform.position = position;
     }
 
-   /* private void HandleMovement()
-    {
+    /*    private void Update()
+{
 
-        Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
-            
+    HandleMovement();
+    HandleRotation();
+    HandleZoom();
 
-        float moveSpeed = 10f;
-
-        Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
-        transform.position += moveVector * moveSpeed * Time.deltaTime;
+}*/
 
 
-    }
+    /* private void HandleMovement()
+     {
 
-    private void HandleRotation()
-    {
-
-        float rotationSpeed = 100f;
-
-        Vector3 rotationVector = new Vector3(0, 0, 0);
-
-        rotationVector.y = InputManager.Instance.GetCameraRotateAmount();
+         Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
 
 
-        transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;
+         float moveSpeed = 10f;
+
+         Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
+         transform.position += moveVector * moveSpeed * Time.deltaTime;
+
+
+     }
+
+     private void HandleRotation()
+     {
+
+         float rotationSpeed = 100f;
+
+         Vector3 rotationVector = new Vector3(0, 0, 0);
+
+         rotationVector.y = InputManager.Instance.GetCameraRotateAmount();
+
+
+         transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;
 
 
 
-    }
+     }
 
-    private void HandleZoom()
-    {
+     private void HandleZoom()
+     {
 
-        float zoomIncreaseAmount = 1f;
+         float zoomIncreaseAmount = 1f;
 
-        targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;
+         targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;
 
-        targetFollowOffset.y = Mathf.Clamp(targetFollowOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);
+         targetFollowOffset.y = Mathf.Clamp(targetFollowOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);
 
-        float zoomSpeed = 5f;
-        cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, zoomSpeed * Time.deltaTime);
+         float zoomSpeed = 5f;
+         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, zoomSpeed * Time.deltaTime);
 
-    }*/
+     }*/
 
     public float GetCameraHeight()
     {

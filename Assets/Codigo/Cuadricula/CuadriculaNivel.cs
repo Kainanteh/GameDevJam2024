@@ -112,7 +112,7 @@ public class CuadriculaNivel : MonoBehaviour
 
     }
 
-    public void InstanciarUnidad(Transform unidadAInstanciar, CuadriculaPosicion cuadriculaAInstanciar)
+    public Unidad InstanciarUnidad(Transform unidadAInstanciar, CuadriculaPosicion cuadriculaAInstanciar)
     {
 
        
@@ -121,7 +121,8 @@ public class CuadriculaNivel : MonoBehaviour
 
         UnityEngine.Vector3 unityVector = new UnityEngine.Vector3(systemVector.X * 2, systemVector.Y, systemVector.Z * 2);*/
 
-        Instantiate(unidadAInstanciar, GetMundoPosicion(cuadriculaAInstanciar), Quaternion.identity) ;
+        return Instantiate(unidadAInstanciar, GetMundoPosicion(cuadriculaAInstanciar), Quaternion.identity).
+                GetComponent<Unidad>();
         
 
 
