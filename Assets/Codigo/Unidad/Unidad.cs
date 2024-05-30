@@ -31,6 +31,12 @@ public class Unidad : MonoBehaviour
     public bool NucleoJugador = false;
     public bool NucleoEnemigo = false;
 
+    public event EventHandler empiezaACaminar;
+    public event EventHandler paraDeCaminar;
+
+    public event EventHandler ataque;
+
+
     private void Awake()
     {
 
@@ -86,6 +92,7 @@ public class Unidad : MonoBehaviour
             // La unidad ha cambiado de celda
             CuadriculaNivel.Instance.UnidadSeHaMovidoCuadriculaPosicion(this, viejaCuadriculaPosicion, nuevaCuadriculaPosicion);
             enMovimiento = false;
+            paraDeCaminar?.Invoke(this, EventArgs.Empty);
         }
 
     
@@ -222,6 +229,7 @@ public class Unidad : MonoBehaviour
         if (accionMover.EsValidoAccionCuadriculaPosicion(nuevaPosicion))
         {
             enMovimiento = true; // Marca que la unidad está en movimiento
+            empiezaACaminar?.Invoke(this, EventArgs.Empty);
             accionMover.Mover(nuevaPosicionMundo);
         }
 
@@ -290,6 +298,8 @@ public class Unidad : MonoBehaviour
             Unidad unidadObjetivo = CuadriculaNivel.Instance.GetUnidadACuadriculaPosicion(nuevaPosicion);
 
             accionAtacar.Atacar(unidadObjetivo);
+
+            ataque?.Invoke(this, EventArgs.Empty);
 
         }
 
