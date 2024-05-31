@@ -11,6 +11,26 @@ public class NucleoPuntos : MonoBehaviour
 
     public TextMeshPro textMeshPro;
 
+    public static NucleoPuntos Instance
+    {
+        get; private set;
+    }
+
+    private void Awake()
+    {
+
+        if (Instance != null)
+        {
+            Debug.LogError("There's more than one NucleoPuntos!" + " - " + Instance);
+            return;
+        }
+
+        Instance = this;
+
+
+
+    }
+
     private void Start()
     {
         AudioGolpeBajo.AudioGolpeBajoEvento += PuntosJugadorGolpeBajo;

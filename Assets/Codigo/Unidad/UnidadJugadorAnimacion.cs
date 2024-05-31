@@ -23,6 +23,7 @@ public class UnidadJugadorAnimacion : MonoBehaviour
         unidad.paraDeCaminar += SetCaminando;
 
         unidad.ataque += SetAtaque;
+        unidad.saltarUnidadJugador += SetSalto;
 
     }
 
@@ -39,4 +40,12 @@ public class UnidadJugadorAnimacion : MonoBehaviour
     {
         animatorController.SetTrigger("ataque");
     }
+
+    public void SetSalto(object sender, EventArgs e)
+    {
+        animatorController.SetTrigger("saltoUnidadJugador");
+
+    }
+
+    
 }

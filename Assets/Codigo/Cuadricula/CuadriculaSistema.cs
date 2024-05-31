@@ -51,8 +51,10 @@ public class CuadriculaSistema
             Mathf.RoundToInt(posicionMundo.z / tamañoCelda));
     }
 
-    public void CrearDebugCuadriculaObjeto(Transform debugPrefab)
+    public List<Transform> CrearDebugCuadriculaObjeto(Transform debugPrefab)
     {
+
+        List<Transform> debugLista = new List<Transform>();
 
         for (int x = 0; x < alto; x++)
         {
@@ -64,13 +66,14 @@ public class CuadriculaSistema
                 Transform debugTransform = GameObject.Instantiate(debugPrefab, GetMundoPosicion(cuadriculaPosicion),Quaternion.identity);
                 CuadriculaDebugObjeto cuadriculaDebugObjeto = debugTransform.GetComponent<CuadriculaDebugObjeto>();
                 cuadriculaDebugObjeto.SetCuadriculaObjeto(GetCuadriculaObjeto(cuadriculaPosicion));
-
+                debugTransform.name = "CuadriculaDebug" + alto + " " + ancho;
+                debugLista.Add(debugTransform);
 
             }
 
         }
 
-
+        return debugLista;
     }
 
     public CuadriculaObjeto GetCuadriculaObjeto(CuadriculaPosicion cuadriculaPosicion)

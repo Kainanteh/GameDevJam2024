@@ -18,6 +18,15 @@ public class UnidadInstanciaJugador : MonoBehaviour
             CuadriculaObjeto cuadriculaObjeto = CuadriculaNivel.Instance.GetCuadriculaSistema().GetCuadriculaObjeto(cuadriculaPosicion);
 
             Unidad unidad = UnidadJugadorSeleccionada.Instance.UnidadSeleccionada;
+         
+            if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
+                || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
+            else if (unidad != null )
+            {
+               
+                NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad)*-1);
+            }
+
 
 
             if (CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(cuadriculaPosicion))

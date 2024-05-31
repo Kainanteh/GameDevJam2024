@@ -36,6 +36,11 @@ public class Unidad : MonoBehaviour
 
     public event EventHandler ataque;
 
+    public event EventHandler saltarUnidadJugador;
+
+    public int costePuntosUnidad = 10;
+
+    [SerializeField] private Transform UnidadVisual;
 
     private void Awake()
     {
@@ -68,6 +73,13 @@ public class Unidad : MonoBehaviour
 
 
             accionAtacar.EnMatar += SetEnAtaqueFalse;
+            if(esEnemigo == false)
+            {
+                ActualizarRotacion();
+            }
+            
+     
+
         }
         else
         {
@@ -78,11 +90,13 @@ public class Unidad : MonoBehaviour
 
 
         }
+
+   
     }
 
     private void Update()
     {
-
+        
         CuadriculaPosicion nuevaCuadriculaPosicion = CuadriculaNivel.Instance.GetCuadriculaPosicion(transform.position);
 
         if (nuevaCuadriculaPosicion != cuadriculaPosicion)
@@ -95,6 +109,7 @@ public class Unidad : MonoBehaviour
             paraDeCaminar?.Invoke(this, EventArgs.Empty);
         }
 
+  
     
 
         if(!HayEnemigoEnDireccion(direccionActual))
@@ -102,6 +117,27 @@ public class Unidad : MonoBehaviour
             enAtaque = false;
         }
 
+    }
+
+    private void ActualizarRotacion()
+    {
+        if (UnidadVisual == null) { return; }
+
+        switch (direccionActual)
+        {
+            case Direccion.Norte:
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                break;
+            case Direccion.Sur:
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                break;
+            case Direccion.Este:
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+                break;
+            case Direccion.Oeste:
+                transform.rotation = Quaternion.Euler(0, -90, 0);
+                break;
+        }
     }
 
     private void OnAudioGolpeBajoEvento(object sender, EventArgs e)
@@ -117,7 +153,16 @@ public class Unidad : MonoBehaviour
             {
                 AtacarUnidad();
             }
+
+          
         }
+
+
+
+     /*   if (TurnosGolpeBajo.Instance.EsTurnoEnemigo == true && esEnemigo == false && !enMovimiento && !enAtaque)
+        {
+            saltarUnidadJugador?.Invoke(this, EventArgs.Empty);
+        }*/
     }
 
 
@@ -269,7 +314,7 @@ public class Unidad : MonoBehaviour
             return;
         }
 
-
+      
         CuadriculaPosicion nuevaPosicion = cuadriculaPosicion;
 
         switch (direccionActual)
@@ -287,7 +332,7 @@ public class Unidad : MonoBehaviour
                 nuevaPosicion = new CuadriculaPosicion(cuadriculaPosicion.x - 1, cuadriculaPosicion.z);
                 break;
         }
-
+     
         /* Vector3 nuevaPosicionMundo = CuadriculaNivel.Instance.GetMundoPosicion(nuevaPosicion);*/
 
 
@@ -300,6 +345,7 @@ public class Unidad : MonoBehaviour
             accionAtacar.Atacar(unidadObjetivo);
 
             ataque?.Invoke(this, EventArgs.Empty);
+
 
         }
 

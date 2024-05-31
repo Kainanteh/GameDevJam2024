@@ -17,6 +17,8 @@ public class CuadriculaNivel : MonoBehaviour
     [SerializeField] private int Alto;
     [SerializeField] private int Ancho;
 
+    [SerializeField] Transform parentDebug;
+
     private void Awake()
     {
 
@@ -37,9 +39,13 @@ public class CuadriculaNivel : MonoBehaviour
 
         cuadriculaSistema = new CuadriculaSistema(Alto, Ancho, 2f);
 
-        cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
+        List<Transform> listaDebug = cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
 
-   
+        foreach (Transform t in listaDebug)
+        {
+            t.parent = parentDebug;
+            
+        }
 
     }
 
