@@ -38,6 +38,8 @@ public class Unidad : MonoBehaviour
 
     public event EventHandler saltarUnidadJugador;
 
+    public event EventHandler recibirUnidadEnemigo;
+
     public int costePuntosUnidad = 10;
 
     [SerializeField] private Transform UnidadVisual;
@@ -118,6 +120,8 @@ public class Unidad : MonoBehaviour
         }
 
     }
+
+ 
 
     private void ActualizarRotacion()
     {
@@ -375,6 +379,7 @@ public class Unidad : MonoBehaviour
     {
 
         unidadVidaSistema.Daño(dañoAtaque);
+        recibirUnidadEnemigo?.Invoke(this, EventArgs.Empty);
 
     }
 
@@ -397,6 +402,10 @@ public class Unidad : MonoBehaviour
     {
         Moverse = true;
     }
+    public void SetMoverseFalse()
+    {
+        Moverse = false;
+    }
 
     public void SetDireccion(Direccion nuevaDireccion)
     {
@@ -408,6 +417,10 @@ public class Unidad : MonoBehaviour
         return direccionActual;
     }
 
+    public void SetEnMovimiento(bool movimiento)
+    {
+        enMovimiento = movimiento;
+    }
 
 }
 

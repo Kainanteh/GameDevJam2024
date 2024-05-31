@@ -19,7 +19,7 @@ public class UnidadVidaSistema : MonoBehaviour
         vidaMaxima = vida;
         unidad = GetComponent<Unidad>();
     }
-
+    
 
     public void Daño(int dañoNumero)
     {
@@ -62,7 +62,9 @@ public class UnidadVidaSistema : MonoBehaviour
 
         }
 
-        Destroy(this.gameObject);
+        /* Destroy(this.gameObject);*/
+        unidad.SetEnMovimiento(false);
+        unidad.SetMoverseFalse();
 
     }
 
