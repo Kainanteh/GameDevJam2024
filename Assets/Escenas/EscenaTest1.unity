@@ -3098,9 +3098,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
         type: 3}
+      propertyPath: IANombreTXT
+      value: NucleoSur
+      objectReference: {fileID: 0}
+    - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
+        type: 3}
       propertyPath: UnidadEnemigo
       value: 
       objectReference: {fileID: 984681184566601405, guid: b9ebb441935506e439b320caecbbc14b,
+        type: 3}
+    - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
+        type: 3}
+      propertyPath: UnidadEnemigoCerdo
+      value: 
+      objectReference: {fileID: 984681184566601405, guid: b9ebb441935506e439b320caecbbc14b,
+        type: 3}
+    - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
+        type: 3}
+      propertyPath: UnidadEnemigoPollo
+      value: 
+      objectReference: {fileID: 5125041298180659701, guid: c03d8e01d16cfce438707a9d15f618d9,
+        type: 3}
+    - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
+        type: 3}
+      propertyPath: UnidadEnemigoMurcielago
+      value: 
+      objectReference: {fileID: 6745545327129309492, guid: ff60de6e44bf39d47ae8bcc1470258a3,
         type: 3}
     - target: {fileID: 6856655598416561550, guid: c72bdfdbf8b941147a691dc708bd935f,
         type: 3}
@@ -3150,7 +3173,7 @@ PrefabInstance:
     - target: {fileID: 9025650744660965517, guid: c72bdfdbf8b941147a691dc708bd935f,
         type: 3}
       propertyPath: m_Name
-      value: NucleoEnemigo (1)
+      value: NucleoEnemigoSur
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

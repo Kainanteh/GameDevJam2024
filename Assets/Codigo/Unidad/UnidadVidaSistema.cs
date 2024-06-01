@@ -59,12 +59,15 @@ public class UnidadVidaSistema : MonoBehaviour
                 CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(cuadricula);
 
             }
-
+            Destroy(this.gameObject);
         }
 
         /* Destroy(this.gameObject);*/
         unidad.SetEnMovimiento(false);
         unidad.SetMoverseFalse();
+        unidad.SetEnAtaqueFalse(this, EventArgs.Empty);
+
+
 
     }
 

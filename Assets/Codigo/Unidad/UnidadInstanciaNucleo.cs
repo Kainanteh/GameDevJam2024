@@ -5,32 +5,31 @@ using System.IO;
 
 public class UnidadInstanciaNucleo : MonoBehaviour
 {
-
     [SerializeField] private Transform Unidad;
-    [SerializeField] private Transform UnidadEnemigo;
+    [SerializeField] private Transform UnidadEnemigoMurcielago;
+    [SerializeField] private Transform UnidadEnemigoCerdo;
+    [SerializeField] private Transform UnidadEnemigoPollo;
 
     [SerializeField] private List<CuadriculaPosicion> cuadriculasInstanciadoras;
 
     private Unidad estaUnidad;
-       
+    private bool procesandoInstanciaciones;
 
     private void Awake()
     {
-   
         estaUnidad = GetComponent<Unidad>();
-
     }
 
-    // Start is called before the first frame update
+    public string IANombreTXT;
+
     void Start()
     {
-        //InstanciarUnidad(Unidad);
-
         if (estaUnidad.EsEnemigo())
         {
-            string path = Path.Combine(Application.dataPath, "IAEnemigo", "NucleoEste_1.txt");
+            string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT+".txt");
             List<string> lineas = LeerArchivoTexto(path);
-            ProcesarInstanciaciones(lineas);
+            procesandoInstanciaciones = true;
+            StartCoroutine(ProcesarInstanciaciones(lineas));
         }
         else
         {
@@ -39,13 +38,8 @@ public class UnidadInstanciaNucleo : MonoBehaviour
                 CuadriculaObjeto cuadriculaObjeto = CuadriculaNivel.Instance.GetCuadriculaSistema().GetCuadriculaObjeto(cuadricula);
                 cuadriculaObjeto.cuadriculaInstanciadora = true;
             }
-
         }
-
     }
-
-
-
 
     public List<string> LeerArchivoTexto(string path)
     {
@@ -61,18 +55,21 @@ public class UnidadInstanciaNucleo : MonoBehaviour
         return lineas;
     }
 
-    public void ProcesarInstanciaciones(List<string> lineas)
+    public IEnumerator ProcesarInstanciaciones(List<string> lineas)
     {
-        foreach (var linea in lineas)
+        while (procesandoInstanciaciones)
         {
-            string[] partes = linea.Split(':');
-            if (partes.Length == 3)
+            foreach (var linea in lineas)
             {
-                int segundos = int.Parse(partes[0]);
-                int tipoEnemigo = int.Parse(partes[1]);
-                int indiceCuadricula = int.Parse(partes[2]);
+                string[] partes = linea.Split(':');
+                if (partes.Length == 3)
+                {
+                    int segundos = int.Parse(partes[0]);
+                    int tipoEnemigo = int.Parse(partes[1]);
+                    int indiceCuadricula = int.Parse(partes[2]);
 
-                StartCoroutine(InstanciarEnemigoConRetraso(segundos, tipoEnemigo, indiceCuadricula));
+                    yield return StartCoroutine(InstanciarEnemigoConRetraso(segundos, tipoEnemigo, indiceCuadricula));
+                }
             }
         }
     }
@@ -81,16 +78,28 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     {
         yield return new WaitForSeconds(segundos);
 
-        Transform enemigoAInstanciar = tipoEnemigo == 0 ? UnidadEnemigo : null; // Aquí puedes añadir más tipos de enemigos
+        Transform enemigoAInstanciar =
+        tipoEnemigo == 0 ? UnidadEnemigoMurcielago :
+        tipoEnemigo == 1 ? UnidadEnemigoCerdo :
+        tipoEnemigo == 2 ? UnidadEnemigoPollo :
+        null;
 
         if (enemigoAInstanciar != null && indiceCuadricula >= 0 && indiceCuadricula < cuadriculasInstanciadoras.Count)
         {
             System.Numerics.Vector3 systemVector = cuadriculasInstanciadoras[indiceCuadricula].GetVectorPosicion();
             UnityEngine.Vector3 unityVector = new UnityEngine.Vector3(systemVector.X * 2, systemVector.Y, systemVector.Z * 2);
-            Unidad unidadInstanciada = Instantiate(enemigoAInstanciar, unityVector, Quaternion.identity).GetComponent<Unidad>();
-            unidadInstanciada.SetMoverseTrue();
-            unidadInstanciada.SetDireccion(estaUnidad.GetDireccion());
+            if (!CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(CuadriculaNivel.Instance.GetCuadriculaPosicion(unityVector)))
+            {
+                Unidad unidadInstanciada = Instantiate(enemigoAInstanciar, unityVector, Quaternion.identity).GetComponent<Unidad>();
+                unidadInstanciada.SetMoverseTrue();
+                unidadInstanciada.SetDireccion(estaUnidad.GetDireccion());
+            }
         }
     }
 
+    // Método para detener el bucle si es necesario
+    public void DetenerInstanciaciones()
+    {
+        procesandoInstanciaciones = false;
+    }
 }
