@@ -47,6 +47,17 @@ public class UnidadVidaSistema : MonoBehaviour
 
         EnMuerte?.Invoke(this, EventArgs.Empty);
 
+        if(unidad.GetDireccion() == Unidad.Direccion.Norte)
+        {
+            Debug.Log("Destruido Nucleo Sur");
+
+            if(Nivel.Instance.Tutorial == true)
+            {
+                Nivel.Instance.Tutorial = false;
+                Nivel.Instance.Nivel1 = true;
+            }
+        }
+
         CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(unidad.GetCuadriculaPosicion());
 
         if(unidad.NucleoJugador == true || unidad.NucleoEnemigo == true)

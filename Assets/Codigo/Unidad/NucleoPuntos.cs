@@ -63,7 +63,7 @@ public class NucleoPuntos : MonoBehaviour
 
     public void PuntosJugadorGolpeBajo(object sender, EventArgs e)
     {
-        SetPuntosJugador(2);
+        SetPuntosJugador(1);
     }
 
 

@@ -75,10 +75,10 @@ public class Unidad : MonoBehaviour
 
 
             accionAtacar.EnMatar += SetEnAtaqueFalse;
-            if(esEnemigo == false)
-            {
+          /*  if(esEnemigo == false)
+            {*/
                 ActualizarRotacion();
-            }
+          /*  }*/
             
      
 
@@ -126,6 +126,8 @@ public class Unidad : MonoBehaviour
     private void ActualizarRotacion()
     {
         if (UnidadVisual == null) { return; }
+
+   
 
         switch (direccionActual)
         {

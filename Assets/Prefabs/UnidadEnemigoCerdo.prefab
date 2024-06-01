@@ -62,7 +62,7 @@ MonoBehaviour:
   NucleoJugador: 0
   NucleoEnemigo: 0
   costePuntosUnidad: 10
-  UnidadVisual: {fileID: 0}
+  UnidadVisual: {fileID: 6515237129288363866}
 --- !u!114 &7006684544182981484
 MonoBehaviour:
   m_ObjectHideFlags: 0
