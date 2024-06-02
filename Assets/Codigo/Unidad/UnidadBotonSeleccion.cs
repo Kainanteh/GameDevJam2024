@@ -14,6 +14,15 @@ public class UnidadBotonSeleccion : MonoBehaviour
 
         UnidadJugadorSeleccionada.Instance.UnidadSeleccionada = UnidadBoton.GetComponent<Unidad>();
 
+        if(Nivel.Instance.Flecha1.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+        {
+
+            Nivel.Instance.Flecha1.gameObject.SetActive(false);
+            Nivel.Instance.Flecha2.gameObject.SetActive(true);
+
+
+        }
+
     }
 
 }

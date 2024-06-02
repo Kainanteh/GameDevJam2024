@@ -27,6 +27,13 @@ public class UnidadInstanciaJugador : MonoBehaviour
                 NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad)*-1);
             }
 
+            if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+            {
+
+                Nivel.Instance.Flecha2.gameObject.SetActive(false);
+
+            }
+
 
 
             if (CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(cuadriculaPosicion))

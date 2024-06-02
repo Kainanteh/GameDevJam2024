@@ -44,15 +44,24 @@ public class Nivel : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        if (Tutorial == true)
+        {
+            NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+        }
+    }
+
     private void Update()
     {
 
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0) // Tutorial
         {
-            Debug.Log("Tutorial1ANivel1");
+ 
 
             if (Tutorial == true)
             {
+                Debug.Log("Tutorial1ANivel1");
                 Tutorial = false;
                 Nivel1 = true;
                 Tutorial1ANivel1();
@@ -60,15 +69,17 @@ public class Nivel : MonoBehaviour
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().IANombreTXT = "NucleoSur";
 
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+                NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
             }
         }
 
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0) // Nivel 1
         {
-            Debug.Log("Nivel1ANivel2");
+          
 
             if (Nivel1 == true)
             {
+                Debug.Log("Nivel1ANivel2");
                 Nivel1 = false;
                 Nivel2 = true;
                 Nivel1ANivel2();
@@ -77,15 +88,18 @@ public class Nivel : MonoBehaviour
 
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+                NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
             }
         }
 
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoEste.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0) // Nivel 2
         {
-            Debug.Log("Nivel2ANivel3");
+      
 
             if (Nivel2 == true)
             {
+                Debug.Log("Nivel2ANivel3");
                 Nivel2 = false;
                 Nivel3 = true;
                 Nivel2ANivel3();
@@ -96,15 +110,19 @@ public class Nivel : MonoBehaviour
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+                NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
             }
         }
 
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoEste.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoOeste.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0)  // Nivel 3
         {
-            Debug.Log("Nivel3ANivel4");
+      
 
             if (Nivel3 == true)
             {
+                Debug.Log("Nivel3ANivel4");
                 Nivel3 = false;
                 Nivel4 = true;
                 Nivel3ANivel4();
@@ -117,6 +135,10 @@ public class Nivel : MonoBehaviour
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoNorte.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+                NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+                NucleoNorte.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
             }
         }
 
@@ -124,12 +146,12 @@ public class Nivel : MonoBehaviour
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoEste.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoOeste.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && NucleoNorte.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0)
         {
 
-            Debug.Log("Ganar");
+     
 
             if (Nivel4 == true)
             {
 
-
+                Debug.Log("Ganar");
 
             }
 
@@ -140,9 +162,12 @@ public class Nivel : MonoBehaviour
     public void Tutorial1ANivel1()
     {
 
-        NucleoSur.gameObject.SetActive(false);
- 
-        foreach(var unidad in UnidadesNucleoSur)
+        //NucleoSur.gameObject.SetActive(false);
+        NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        
+
+
+        foreach (var unidad in UnidadesNucleoSur)
         {
             if (unidad != null)
             {
@@ -151,15 +176,17 @@ public class Nivel : MonoBehaviour
 
         }
         UnidadesNucleoSur.Clear();
-        NucleoSur.gameObject.SetActive(true);
+        //NucleoSur.gameObject.SetActive(true);
+
  
     }
 
     public void Nivel1ANivel2()
     {
 
-        NucleoSur.gameObject.SetActive(false);
-        NucleoEste.gameObject.SetActive(false);
+
+        NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoEste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
 
 
         foreach (var unidad in UnidadesNucleoSur)
@@ -183,17 +210,18 @@ public class Nivel : MonoBehaviour
         UnidadesNucleoEste.Clear();
 
 
-        NucleoSur.gameObject.SetActive(true);
-        NucleoEste.gameObject.SetActive(true);
+
 
     }
 
     public void Nivel2ANivel3()
     {
 
-        NucleoSur.gameObject.SetActive(false);
-        NucleoEste.gameObject.SetActive(false);
-        NucleoOeste.gameObject.SetActive(false);
+
+        NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoEste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoOeste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        
 
 
         foreach (var unidad in UnidadesNucleoSur)
@@ -226,9 +254,7 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoOeste.Clear();
 
-        NucleoSur.gameObject.SetActive(true);
-        NucleoEste.gameObject.SetActive(true);
-        NucleoOeste.gameObject.SetActive(true);
+
 
         NucleoPuntos.Instance.ratioPuntos = 2;
 
@@ -237,10 +263,10 @@ public class Nivel : MonoBehaviour
     public void Nivel3ANivel4()
     {
 
-        NucleoSur.gameObject.SetActive(false);
-        NucleoEste.gameObject.SetActive(false);
-        NucleoOeste.gameObject.SetActive(false);
 
+        NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoEste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoOeste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
 
         foreach (var unidad in UnidadesNucleoSur)
         {
@@ -272,10 +298,23 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoOeste.Clear();
 
-        NucleoSur.gameObject.SetActive(true);
-        NucleoEste.gameObject.SetActive(true);
-        NucleoOeste.gameObject.SetActive(true);
-        NucleoNorte.gameObject.SetActive(true);
+        NucleoPuntos.Instance.ratioPuntos = 3;
+
+ 
+    }
+
+
+    public void Ganar()
+    {
+
+        NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoEste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoOeste.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+        NucleoNorte.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
+
+        NucleoPuntos.Instance.PararPuntos = true;
+        
+
 
     }
 

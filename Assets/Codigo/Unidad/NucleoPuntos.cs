@@ -18,6 +18,8 @@ public class NucleoPuntos : MonoBehaviour
 
     public int ratioPuntos = 1;
 
+    public bool PararPuntos;
+
     private void Awake()
     {
 
@@ -65,6 +67,8 @@ public class NucleoPuntos : MonoBehaviour
 
     public void PuntosJugadorGolpeBajo(object sender, EventArgs e)
     {
+        if(PararPuntos == true)
+        { return; }
         SetPuntosJugador(ratioPuntos);
     }
 

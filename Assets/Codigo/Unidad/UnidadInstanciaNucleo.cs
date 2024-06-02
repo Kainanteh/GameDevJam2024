@@ -17,7 +17,8 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     private bool procesandoInstanciaciones;
 
 
-    private Coroutine EnemigosCoroutine;
+    [SerializeField]private Coroutine EnemigosCoroutine;
+    public bool activado = true;
 
     private void Awake()
     {
@@ -37,10 +38,10 @@ public class UnidadInstanciaNucleo : MonoBehaviour
                         procesandoInstanciaciones = true;
                         StartCoroutine(ProcesarInstanciaciones(lineas));
                     }*/
-            if (Nivel.Instance.Tutorial == true)
+         /*   if (Nivel.Instance.Tutorial == true)
             {
                 EnemigosEmpezar();
-            }
+            }*/
         }
         else
         {
@@ -52,19 +53,29 @@ public class UnidadInstanciaNucleo : MonoBehaviour
         }
     }
 
- /*   private void OnEnable()
+    /*   private void OnEnable()
+       {
+           if (Nivel.Instance.Tutorial == false)
+           {
+               if (estaUnidad.EsEnemigo())
+               {
+                   string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
+                   List<string> lineas = LeerArchivoTexto(path);
+                   procesandoInstanciaciones = true;
+                   StartCoroutine(ProcesarInstanciaciones(lineas));
+               }
+           }
+       }*/
+
+    private void Update()
     {
-        if (Nivel.Instance.Tutorial == false)
+        if (estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && activado == true)
         {
-            if (estaUnidad.EsEnemigo())
-            {
-                string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
-                List<string> lineas = LeerArchivoTexto(path);
-                procesandoInstanciaciones = true;
-                StartCoroutine(ProcesarInstanciaciones(lineas));
-            }
+            StopCoroutine(EnemigosCoroutine);
+            activado = false;
         }
-    }*/
+
+    }
 
     public void EnemigosEmpezar()
     {
@@ -73,15 +84,28 @@ public class UnidadInstanciaNucleo : MonoBehaviour
         List<string> lineas = LeerArchivoTexto(path);
         procesandoInstanciaciones = true;
         /*if (EnemigosCoroutine != null)*/
-        if(estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0)
+
+        if(estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0)
         {
             StopCoroutine(EnemigosCoroutine);
+
         }
 
         // Iniciar una nueva Coroutine y almacenar la referencia
         EnemigosCoroutine = StartCoroutine(ProcesarInstanciaciones(lineas));
         
      
+    }
+
+    public void StopEnemigosCoroutine()
+    {
+
+        if (EnemigosCoroutine != null)
+        {
+            UnityEngine.Debug.Log(estaUnidad);
+            StopCoroutine(EnemigosCoroutine);
+        }
+
     }
 
     public List<string> LeerArchivoTexto(string path)
@@ -100,7 +124,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
     public IEnumerator ProcesarInstanciaciones(List<string> lineas)
     {
-        while (procesandoInstanciaciones)
+        while (procesandoInstanciaciones && activado == true)
         {
             foreach (var linea in lineas)
             {
