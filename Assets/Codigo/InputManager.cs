@@ -12,8 +12,6 @@ public class InputManager : MonoBehaviour
         get; private set;
     }
 
-
-
     private void Awake()
     {
         if (Instance != null)
@@ -27,7 +25,7 @@ public class InputManager : MonoBehaviour
 
   
 
-    }
+    } 
 
 
 

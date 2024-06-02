@@ -28,7 +28,7 @@ public class SonidoManager : MonoBehaviour
         Instance = this;
 
         _AudioSource = GetComponent<AudioSource>();
-
+   
     }
 
     public void ActivarSonido(int indice)

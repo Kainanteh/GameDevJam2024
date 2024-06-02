@@ -80,7 +80,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     public void EnemigosEmpezar()
     {
 
-        string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
+        string path = Path.Combine(Application.streamingAssetsPath, "IAEnemigo", IANombreTXT + ".txt");
         List<string> lineas = LeerArchivoTexto(path);
         procesandoInstanciaciones = true;
         /*if (EnemigosCoroutine != null)*/

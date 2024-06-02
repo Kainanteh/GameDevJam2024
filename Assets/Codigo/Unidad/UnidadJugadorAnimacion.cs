@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class UnidadJugadorAnimacion : MonoBehaviour
@@ -28,6 +27,7 @@ public class UnidadJugadorAnimacion : MonoBehaviour
         unidad.saltarUnidadJugador += SetSalto;
 
         unidadVidaSistema.EnMuerte += SetMorir;
+  
     }
 
     public void SetCaminando(object sender, EventArgs e)

@@ -38,8 +38,10 @@ public class UnidadVidaSistema : MonoBehaviour
             Muere();
         }
 
-  
-
+        if(unidad.EsEnemigo())
+        {
+            //SonidoManager.Instance.ActivarSonido(1);
+        }
     }
 
     private void Muere()

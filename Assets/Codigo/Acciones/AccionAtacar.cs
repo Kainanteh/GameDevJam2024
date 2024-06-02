@@ -43,6 +43,15 @@ public class AccionAtacar : MonoBehaviour
         }
 
         unidadObjetivo.DañoAVida(dañoAtaque);
+   /*     if(unidad.EsEnemigo())
+        {
+            SonidoManager.Instance.ActivarSonido(4);
+        }
+        else
+        {
+            SonidoManager.Instance.ActivarSonido(3);
+        }*/
+      
 
     }
 

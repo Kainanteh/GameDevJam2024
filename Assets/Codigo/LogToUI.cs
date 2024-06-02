@@ -11,6 +11,7 @@ public class LogToUI : MonoBehaviour
     void OnEnable()
     {
         Application.logMessageReceived += HandleLog;
+
     }
 
     void OnDisable()
