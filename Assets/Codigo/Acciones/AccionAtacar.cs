@@ -37,6 +37,11 @@ public class AccionAtacar : MonoBehaviour
             EnMatar?.Invoke(this, EventArgs.Empty);
         }
 
+        if(unidadObjetivo.NucleoEnemigo == true || unidadObjetivo.NucleoJugador)
+        {
+            unidad.DañoAVida(20);
+        }
+
         unidadObjetivo.DañoAVida(dañoAtaque);
 
     }

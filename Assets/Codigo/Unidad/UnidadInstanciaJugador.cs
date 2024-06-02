@@ -60,7 +60,8 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     )
                     {
                         UnidadNueva.SetDireccion(Unidad.Direccion.Oeste);
-            
+                        Nivel.Instance.UnidadesNucleoOeste.Add(UnidadNueva.transform);
+
                     }
 
                     if (
@@ -71,6 +72,7 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     )
                     {
                         UnidadNueva.SetDireccion(Unidad.Direccion.Sur);
+                        Nivel.Instance.UnidadesNucleoSur.Add(UnidadNueva.transform);
     
                     }
 
@@ -82,6 +84,7 @@ public class UnidadInstanciaJugador : MonoBehaviour
                       )
                     {
                         UnidadNueva.SetDireccion(Unidad.Direccion.Este);
+                        Nivel.Instance.UnidadesNucleoEste.Add(UnidadNueva.transform);
 
                     }
 
@@ -93,6 +96,7 @@ public class UnidadInstanciaJugador : MonoBehaviour
                      )
                     {
                         UnidadNueva.SetDireccion(Unidad.Direccion.Norte);
+                        Nivel.Instance.UnidadesNucleoNorte.Add(UnidadNueva.transform);
 
                     }
 

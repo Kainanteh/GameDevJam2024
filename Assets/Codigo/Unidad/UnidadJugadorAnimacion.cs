@@ -32,6 +32,9 @@ public class UnidadJugadorAnimacion : MonoBehaviour
 
     public void SetCaminando(object sender, EventArgs e)
     {
+
+        if (animatorController == null) { return; }
+
         // Obtener el valor actual del parámetro "caminando"
         bool isCaminando = animatorController.GetBool("caminando");
 

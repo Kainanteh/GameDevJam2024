@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Diagnostics;
 
 public class UnidadInstanciaNucleo : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     private Unidad estaUnidad;
     private bool procesandoInstanciaciones;
 
+
+    private Coroutine EnemigosCoroutine;
+
     private void Awake()
     {
         estaUnidad = GetComponent<Unidad>();
@@ -26,10 +30,17 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     {
         if (estaUnidad.EsEnemigo())
         {
-            string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT+".txt");
-            List<string> lineas = LeerArchivoTexto(path);
-            procesandoInstanciaciones = true;
-            StartCoroutine(ProcesarInstanciaciones(lineas));
+            /*        if (Nivel.Instance.Tutorial == true)
+                    {
+                        string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
+                        List<string> lineas = LeerArchivoTexto(path);
+                        procesandoInstanciaciones = true;
+                        StartCoroutine(ProcesarInstanciaciones(lineas));
+                    }*/
+            if (Nivel.Instance.Tutorial == true)
+            {
+                EnemigosEmpezar();
+            }
         }
         else
         {
@@ -39,6 +50,38 @@ public class UnidadInstanciaNucleo : MonoBehaviour
                 cuadriculaObjeto.cuadriculaInstanciadora = true;
             }
         }
+    }
+
+ /*   private void OnEnable()
+    {
+        if (Nivel.Instance.Tutorial == false)
+        {
+            if (estaUnidad.EsEnemigo())
+            {
+                string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
+                List<string> lineas = LeerArchivoTexto(path);
+                procesandoInstanciaciones = true;
+                StartCoroutine(ProcesarInstanciaciones(lineas));
+            }
+        }
+    }*/
+
+    public void EnemigosEmpezar()
+    {
+
+        string path = Path.Combine(Application.dataPath, "IAEnemigo", IANombreTXT + ".txt");
+        List<string> lineas = LeerArchivoTexto(path);
+        procesandoInstanciaciones = true;
+        /*if (EnemigosCoroutine != null)*/
+        if(estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0)
+        {
+            StopCoroutine(EnemigosCoroutine);
+        }
+
+        // Iniciar una nueva Coroutine y almacenar la referencia
+        EnemigosCoroutine = StartCoroutine(ProcesarInstanciaciones(lineas));
+        
+     
     }
 
     public List<string> LeerArchivoTexto(string path)
@@ -93,8 +136,49 @@ public class UnidadInstanciaNucleo : MonoBehaviour
                 Unidad unidadInstanciada = Instantiate(enemigoAInstanciar, unityVector, Quaternion.identity).GetComponent<Unidad>();
                 unidadInstanciada.SetMoverseTrue();
                 unidadInstanciada.SetDireccion(estaUnidad.GetDireccion());
+               
+                switch(estaUnidad.GetDireccion())
+                {
+                    case global::Unidad.Direccion.Norte:
+                    {
+
+                        Nivel.Instance.UnidadesNucleoSur.Add(unidadInstanciada.transform);
+
+                        break;
+                    }
+                    case global::Unidad.Direccion.Sur:
+                    {
+
+                        Nivel.Instance.UnidadesNucleoNorte.Add(unidadInstanciada.transform);
+
+                        break;
+                    }
+                    case global::Unidad.Direccion.Este:
+                    {
+
+                        Nivel.Instance.UnidadesNucleoOeste.Add(unidadInstanciada.transform);
+
+                        break;
+                    }
+                    case global::Unidad.Direccion.Oeste:
+                    {
+
+                        Nivel.Instance.UnidadesNucleoEste.Add(unidadInstanciada.transform);
+
+                        break;
+                    }
+
+                }
+
             }
+
         }
+
+        if (Nivel.Instance.Tutorial == true)
+        {
+            StopCoroutine(EnemigosCoroutine);
+        }
+
     }
 
     // Método para detener el bucle si es necesario

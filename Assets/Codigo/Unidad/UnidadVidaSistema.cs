@@ -47,7 +47,7 @@ public class UnidadVidaSistema : MonoBehaviour
 
         EnMuerte?.Invoke(this, EventArgs.Empty);
 
-        if(unidad.GetDireccion() == Unidad.Direccion.Norte)
+     /*   if(unidad.GetDireccion() == Unidad.Direccion.Norte && unidad.NucleoEnemigo == true)
         {
             Debug.Log("Destruido Nucleo Sur");
 
@@ -55,8 +55,10 @@ public class UnidadVidaSistema : MonoBehaviour
             {
                 Nivel.Instance.Tutorial = false;
                 Nivel.Instance.Nivel1 = true;
+                Nivel.Instance.Tutorial1ANivel1();
+                vida = vidaMaxima;
             }
-        }
+        }*/
 
         CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(unidad.GetCuadriculaPosicion());
 
@@ -67,10 +69,11 @@ public class UnidadVidaSistema : MonoBehaviour
             foreach (var cuadricula in cuadriculaPosiciones)
             {
 
-                CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(cuadricula);
+                //CuadriculaNivel.Instance.LimpiarUnidadACuadriculaPosicion(cuadricula);
+                //unidad.GetComponent<UnidadInstanciaNucleo>().enabled = false;
 
             }
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
 
         /* Destroy(this.gameObject);*/
@@ -82,17 +85,19 @@ public class UnidadVidaSistema : MonoBehaviour
 
     }
 
-    public float GetVidaNormalizada()
-    {
 
-        return (float)vida / vidaMaxima;
-
-    }
 
     public int GetVida() 
     {
     
         return vida;
+
+    }
+
+    public void SetVidaMaximaVida ()
+    {
+
+        vida = vidaMaxima;
 
     }
 

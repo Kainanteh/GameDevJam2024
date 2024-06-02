@@ -16,6 +16,8 @@ public class NucleoPuntos : MonoBehaviour
         get; private set;
     }
 
+    public int ratioPuntos = 1;
+
     private void Awake()
     {
 
@@ -63,7 +65,7 @@ public class NucleoPuntos : MonoBehaviour
 
     public void PuntosJugadorGolpeBajo(object sender, EventArgs e)
     {
-        SetPuntosJugador(1);
+        SetPuntosJugador(ratioPuntos);
     }
 
 
