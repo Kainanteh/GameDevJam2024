@@ -25,6 +25,12 @@ public class Nivel : MonoBehaviour
     public List<Transform> UnidadesNucleoEste;
     public List<Transform> UnidadesNucleoOeste;
 
+    public Animator animatorNucleoSur;
+    public Animator animatorNucleoNorte;
+    public Animator animatorNucleoEste;
+    public Animator animatorNucleoOeste;
+
+
     public static Nivel Instance
     {
         get; private set;
@@ -49,6 +55,7 @@ public class Nivel : MonoBehaviour
         if (Tutorial == true)
         {
             NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
+            animatorNucleoSur.SetTrigger("entrada");
         }
     }
 
