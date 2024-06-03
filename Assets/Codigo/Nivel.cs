@@ -30,6 +30,9 @@ public class Nivel : MonoBehaviour
     public Animator animatorNucleoEste;
     public Animator animatorNucleoOeste;
 
+    public UnidadVidaSistema NucleoJugador;
+    public FundidoANegro fundidoANegro;
+
 
     public static Nivel Instance
     {
@@ -61,6 +64,13 @@ public class Nivel : MonoBehaviour
 
     private void Update()
     {
+
+        if(NucleoJugador.GetVida() <=0)
+        {
+            Debug.Log("Perder");
+            fundidoANegro.FundidoAnegro();
+            SonidoManager.Instance.ActivarSonido(1);
+        }
 
         if (NucleoSur.gameObject.GetComponent<UnidadVidaSistema>().GetVida() <= 0) // Tutorial
         {
@@ -176,6 +186,9 @@ public class Nivel : MonoBehaviour
 
                 Debug.Log("Ganar");
 
+                fundidoANegro.FundidoAnegro();
+                SonidoManager.Instance.ActivarSonido(0);
+
             }
 
         }
@@ -201,7 +214,7 @@ public class Nivel : MonoBehaviour
         UnidadesNucleoSur.Clear();
         //NucleoSur.gameObject.SetActive(true);
 
- 
+        NucleoPuntos.Instance.ratioPuntos = 2;
     }
 
     public void Nivel1ANivel2()
@@ -232,7 +245,7 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoEste.Clear();
 
-        NucleoPuntos.Instance.ratioPuntos = 2;
+        NucleoPuntos.Instance.ratioPuntos = 3;
 
 
     }
@@ -279,7 +292,7 @@ public class Nivel : MonoBehaviour
 
 
 
-        NucleoPuntos.Instance.ratioPuntos = 3;
+        NucleoPuntos.Instance.ratioPuntos = 4;
 
     }
 
@@ -321,7 +334,7 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoOeste.Clear();
 
-        NucleoPuntos.Instance.ratioPuntos = 4;
+        NucleoPuntos.Instance.ratioPuntos = 5;
 
  
     }
