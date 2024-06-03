@@ -232,7 +232,7 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoEste.Clear();
 
-
+        NucleoPuntos.Instance.ratioPuntos = 2;
 
 
     }
@@ -279,7 +279,7 @@ public class Nivel : MonoBehaviour
 
 
 
-        NucleoPuntos.Instance.ratioPuntos = 2;
+        NucleoPuntos.Instance.ratioPuntos = 3;
 
     }
 
@@ -321,7 +321,7 @@ public class Nivel : MonoBehaviour
         }
         UnidadesNucleoOeste.Clear();
 
-        NucleoPuntos.Instance.ratioPuntos = 3;
+        NucleoPuntos.Instance.ratioPuntos = 4;
 
  
     }
