@@ -22167,7 +22167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PuntosJugador: 0
   textMeshPro: {fileID: 481938366}
-  ratioPuntos: 3
+  ratioPuntos: 1
   PararPuntos: 0
 --- !u!4 &484797127 stripped
 Transform:
