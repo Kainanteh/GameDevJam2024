@@ -14,7 +14,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     [SerializeField] private List<CuadriculaPosicion> cuadriculasInstanciadoras;
 
     private Unidad estaUnidad;
-    private bool procesandoInstanciaciones;
+
 
 
     [SerializeField]private Coroutine EnemigosCoroutine;
@@ -71,7 +71,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
     {
         if (estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && activado == true && EnemigosCoroutine != null)
         {
-            StopCoroutine(EnemigosCoroutine);
+            //StopCoroutine(EnemigosCoroutine);
             activado = false;
         }
 
@@ -82,12 +82,12 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
         string path = Path.Combine(Application.streamingAssetsPath, "IAEnemigo", IANombreTXT + ".txt");
         List<string> lineas = LeerArchivoTexto(path);
-        procesandoInstanciaciones = true;
+   
         /*if (EnemigosCoroutine != null)*/
 
         if(estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0)
         {
-            StopCoroutine(EnemigosCoroutine);
+            //StopCoroutine(EnemigosCoroutine);
 
         }
 
@@ -124,8 +124,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
     public IEnumerator ProcesarInstanciaciones(List<string> lineas)
     {
-        while (procesandoInstanciaciones && activado == true)
-        {
+       
             foreach (var linea in lineas)
             {
                 string[] partes = linea.Split(':');
@@ -138,7 +137,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
                     yield return StartCoroutine(InstanciarEnemigoConRetraso(segundos, tipoEnemigo, indiceCuadricula));
                 }
             }
-        }
+        
     }
 
     private IEnumerator InstanciarEnemigoConRetraso(int segundos, int tipoEnemigo, int indiceCuadricula)
@@ -205,9 +204,6 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
     }
 
-    // Método para detener el bucle si es necesario
-    public void DetenerInstanciaciones()
-    {
-        procesandoInstanciaciones = false;
-    }
+ 
+   
 }
