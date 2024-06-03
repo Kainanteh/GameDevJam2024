@@ -13,27 +13,13 @@ public class UnidadInstanciaJugador : MonoBehaviour
 
             if (CuadriculaNivel.Instance.EsValidaCuadriculaPosicion(cuadriculaPosicion) == false) { return; }
 
-            
+
 
             CuadriculaObjeto cuadriculaObjeto = CuadriculaNivel.Instance.GetCuadriculaSistema().GetCuadriculaObjeto(cuadriculaPosicion);
 
             Unidad unidad = UnidadJugadorSeleccionada.Instance.UnidadSeleccionada;
+
          
-            if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
-                || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
-            else if (unidad != null )
-            {
-               
-                NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad)*-1);
-            }
-
-            if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
-            {
-
-                Nivel.Instance.Flecha2.gameObject.SetActive(false);
-
-            }
-
 
 
             if (CuadriculaNivel.Instance.HayUnidadEnCuadriculaPosicion(cuadriculaPosicion))
@@ -56,8 +42,7 @@ public class UnidadInstanciaJugador : MonoBehaviour
                 // Si se ha seleccionado una unidad y la cuadricula es instanciadora (al lado del nucleo del jugador)
                 if (unidad != null && cuadriculaObjeto.cuadriculaInstanciadora == true)
                 {
-                    Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
-
+                
       
                     if (
                     (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 8)    ||
@@ -66,6 +51,29 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     (cuadriculaPosicion.x == 7 && cuadriculaPosicion.z == 11)
                     )
                     {
+                        if (Nivel.Instance.Tutorial == true
+                            || Nivel.Instance.Nivel1 == true
+                            || Nivel.Instance.Nivel2 == true) { return; }
+
+                        if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
+             || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
+                        else if (unidad != null)
+                        {
+
+                            NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad) * -1);
+                        }
+
+                        if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+                        {
+
+                            Nivel.Instance.Flecha2.gameObject.SetActive(false);
+
+                        }
+
+
+                        Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
+
+
                         UnidadNueva.SetDireccion(Unidad.Direccion.Oeste);
                         Nivel.Instance.UnidadesNucleoOeste.Add(UnidadNueva.transform);
 
@@ -78,6 +86,26 @@ public class UnidadInstanciaJugador : MonoBehaviour
                     (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 7)
                     )
                     {
+
+                        if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
+             || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
+                        else if (unidad != null)
+                        {
+
+                            NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad) * -1);
+                        }
+
+                        if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+                        {
+
+                            Nivel.Instance.Flecha2.gameObject.SetActive(false);
+
+                        }
+
+
+                        Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
+
+
                         UnidadNueva.SetDireccion(Unidad.Direccion.Sur);
                         Nivel.Instance.UnidadesNucleoSur.Add(UnidadNueva.transform);
     
@@ -90,6 +118,30 @@ public class UnidadInstanciaJugador : MonoBehaviour
                       (cuadriculaPosicion.x == 12 && cuadriculaPosicion.z == 11)
                       )
                     {
+
+
+                        if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
+             || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
+                        else if (unidad != null)
+                        {
+
+                            NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad) * -1);
+                        }
+
+                        if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+                        {
+
+                            Nivel.Instance.Flecha2.gameObject.SetActive(false);
+
+                        }
+
+
+                        if (Nivel.Instance.Tutorial == true 
+                            || Nivel.Instance.Nivel1 == true) { return; }
+
+                        Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
+
+
                         UnidadNueva.SetDireccion(Unidad.Direccion.Este);
                         Nivel.Instance.UnidadesNucleoEste.Add(UnidadNueva.transform);
 
@@ -102,6 +154,31 @@ public class UnidadInstanciaJugador : MonoBehaviour
                      (cuadriculaPosicion.x == 11 && cuadriculaPosicion.z == 12)
                      )
                     {
+
+                        if (unidad == null || (NucleoPuntos.Instance.GetPuntosJugador() - unidad.costePuntosUnidad) < 0
+             || cuadriculaObjeto.cuadriculaInstanciadora != true) { return; }
+                        else if (unidad != null)
+                        {
+
+                            NucleoPuntos.Instance.SetPuntosJugador((unidad.costePuntosUnidad) * -1);
+                        }
+
+                        if (Nivel.Instance.Flecha2.gameObject.activeSelf && Nivel.Instance.Tutorial == true)
+                        {
+
+                            Nivel.Instance.Flecha2.gameObject.SetActive(false);
+
+                        }
+
+
+                        if (Nivel.Instance.Tutorial == true
+                         || Nivel.Instance.Nivel1 == true
+                         || Nivel.Instance.Nivel2 == true
+                         || Nivel.Instance.Nivel3 == true) { return; }
+
+                        Unidad UnidadNueva = CuadriculaNivel.Instance.InstanciarUnidad(unidad.transform, cuadriculaPosicion);
+
+
                         UnidadNueva.SetDireccion(Unidad.Direccion.Norte);
                         Nivel.Instance.UnidadesNucleoNorte.Add(UnidadNueva.transform);
 

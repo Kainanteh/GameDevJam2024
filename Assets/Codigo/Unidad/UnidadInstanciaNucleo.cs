@@ -69,7 +69,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
     private void Update()
     {
-        if (estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && activado == true)
+        if (estaUnidad != null && estaUnidad.GetComponent<UnidadVidaSistema>().GetVida() <= 0 && activado == true && EnemigosCoroutine != null)
         {
             StopCoroutine(EnemigosCoroutine);
             activado = false;
@@ -102,7 +102,7 @@ public class UnidadInstanciaNucleo : MonoBehaviour
 
         if (EnemigosCoroutine != null)
         {
-            UnityEngine.Debug.Log(estaUnidad);
+         
             StopCoroutine(EnemigosCoroutine);
         }
 

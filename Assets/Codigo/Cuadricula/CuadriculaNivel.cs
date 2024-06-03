@@ -39,13 +39,13 @@ public class CuadriculaNivel : MonoBehaviour
 
         cuadriculaSistema = new CuadriculaSistema(Alto, Ancho, 2f);
 
-        List<Transform> listaDebug = cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
+     /*   List<Transform> listaDebug = cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
 
         foreach (Transform t in listaDebug)
         {
             t.parent = parentDebug;
             
-        }
+        }*/
 
     }
 

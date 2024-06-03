@@ -13,7 +13,7 @@ public class Test : MonoBehaviour
         cuadriculaSistema = new CuadriculaSistema(10,10,2f);
 
         Debug.Log(new CuadriculaPosicion(5,7));
-        cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
+        //cuadriculaSistema.CrearDebugCuadriculaObjeto(CuadriculaDebugPrefab);
     }
 
     private void Update()

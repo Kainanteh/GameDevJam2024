@@ -77,6 +77,8 @@ public class Nivel : MonoBehaviour
 
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+
+                animatorNucleoSur.SetTrigger("salida");
             }
         }
 
@@ -97,6 +99,9 @@ public class Nivel : MonoBehaviour
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().EnemigosEmpezar();
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+
+                animatorNucleoSur.SetTrigger("salida");
+                animatorNucleoEste.SetTrigger("entrada");
             }
         }
 
@@ -120,6 +125,10 @@ public class Nivel : MonoBehaviour
                 NucleoSur.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
                 NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+
+                animatorNucleoSur.SetTrigger("salida");
+                animatorNucleoEste.SetTrigger("salida");
+                animatorNucleoOeste.SetTrigger("entrada");
             }
         }
 
@@ -146,6 +155,13 @@ public class Nivel : MonoBehaviour
                 NucleoEste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
                 NucleoOeste.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
                 NucleoNorte.gameObject.GetComponent<UnidadInstanciaNucleo>().activado = true;
+
+
+                animatorNucleoSur.SetTrigger("salida");
+                animatorNucleoEste.SetTrigger("salida");
+                animatorNucleoOeste.SetTrigger("salida");
+                animatorNucleoNorte.SetTrigger("entrada");
+
             }
         }
 
@@ -171,8 +187,8 @@ public class Nivel : MonoBehaviour
 
         //NucleoSur.gameObject.SetActive(false);
         NucleoSur.GetComponent<UnidadInstanciaNucleo>().StopEnemigosCoroutine();
-        
 
+        animatorNucleoSur.SetTrigger("salida");
 
         foreach (var unidad in UnidadesNucleoSur)
         {

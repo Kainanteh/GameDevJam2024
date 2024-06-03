@@ -43,6 +43,9 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+
+        if (Nivel.Instance.Tutorial == true) { return; }
+
         // Movimiento horizontal
         float horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * horizontalInput * moveSpeed * Time.deltaTime);
